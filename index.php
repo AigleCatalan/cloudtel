@@ -154,7 +154,7 @@ position:fixed;
 <div id="main">
   <h2>Sidenav Push Example</h2>
   <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
-   <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
+   <p>. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
     <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
   <!--<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>-->
 </div>
