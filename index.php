@@ -164,6 +164,7 @@ position:fixed;
     <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
   <!--<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>-->
 </div>
+<p id="console" > </p> 
 <div title="click to add reservation" onclick="openNav();" id="overlay">
 <span>&lsaquo;</span>
 </div>
@@ -183,7 +184,9 @@ $('.childOfDiv').each(function (){
 	     $(this).datepicker({ dateFormat: "dd.mm.yy",
                                  onClose: function(){
 
-                                              var sCheckDate = validate($(this).val());
+                                              //var sCheckDate = validate($(this).val());
+
+                                              var sCheckDate = "......."
 
                                                return sCheckDate;
 
@@ -232,7 +235,9 @@ $( "#myBtnWeiter" ).click(function() {
 
                                  onClose: function(){
 
-                                                var sCheckDate = validate($(this).val());
+                                                //var sCheckDate = validate($(this).val());
+
+                                                var sCheckDate = ".......";
 
                                                  return sCheckDate;
                                                 
