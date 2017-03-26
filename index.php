@@ -184,13 +184,11 @@ $('.childOfDiv').each(function (){
 	     $(this).datepicker({ dateFormat: "dd.mm.yy",
                                  onClose: function(){
 
-                                              //var sCheckDate = validate($(this).val());
+                                              var sCheckDate = validate($(this).val());
 
-                                              var sCheckDate = "......."
+                                              return sCheckDate;
 
-                                               return sCheckDate;
-
-                                                }
+                                              }
 
                             });
 
@@ -235,9 +233,7 @@ $( "#myBtnWeiter" ).click(function() {
 
                                  onClose: function(){
 
-                                                //var sCheckDate = validate($(this).val());
-
-                                                var sCheckDate = ".......";
+                                                var sCheckDate = validate($(this).val());
 
                                                  return sCheckDate;
                                                 
@@ -334,6 +330,12 @@ function request(callback){
   
     xhr.send(oStoredData);
 
+     document.getElementById("mySidenav").style.width = "0";
+
+    document.getElementById("main").style.marginLeft= "0";
+
+    document.body.style.backgroundColor = "white";
+
 }
 
 function readData(sData){
@@ -342,7 +344,7 @@ function readData(sData){
 
       //  alert("C'est bon"+sData);
 
-      document.getElementById("personAttribute").innerHTML = sData;
+      document.getElementById("console").innerHTML = "...."+sData;
 
     } else {
 

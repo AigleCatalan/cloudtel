@@ -6,7 +6,7 @@
 
 		 $response = json_encode($obj);
 
-		 echo 'salut'.json_decode($response);
+		 echo 'salut vous venez de recevoir ces donnees:'.'<br />'.json_decode($response);
 
 		 //DB-Verarbeitung
 						  					
