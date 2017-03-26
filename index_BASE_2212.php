@@ -95,7 +95,6 @@ position:fixed;
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="oXHR.js"></script>
   
    <script>
 		 
@@ -103,12 +102,9 @@ position:fixed;
 
             function downScripts(){
 			
-					 var element = document.createElement("script");
-
-					 element.src = "help.js";
-
-					 document.body.appendChild(element);
-
+					var element = document.createElement("script");
+					element.src = "help.js";
+					document.body.appendChild(element);
             }
 			
         </script>
@@ -125,9 +121,9 @@ position:fixed;
 
   <a  class="closebtn" onclick="closeNav()">&times;</a> 
   
-  	<form id="addPerson" name ="addPerson" method="post" action="">
+  	<form id="addPerson" name ="addPerson" method="post" action="index.php">
 		
-      <div id="personAttribute">
+          <div id="personAttribute">
 		  
 			   <div id = "child1">	 
 			            <br> 
@@ -142,33 +138,26 @@ position:fixed;
 						
 				</div>
 				
-      </div>
-
-    </form>  
+           </div>
  
-	  <button type="submit"  onclick="request(readData);"> Submit </button>
+	       <button type="submit"  onclick="request(readData);"> Submit </button>
 	
-	      <!--<button type="submit"  onclick="saveData();"> Submit </button>  -->     
+	       <!--<button type="submit"  onclick="saveData();"> Submit </button>  -->     
             
-	  <button id="myBtnWeiter"  onclick="cloneDiv();" disabled> add More...</button> 
+			 <button id="myBtnWeiter"  onclick="cloneDiv();" disabled> add More...</button> 
 		   
-        
+        </form>
 		
 		 
 </div>
 
 <div id="main">
-<<<<<<< HEAD
-  <h2>This is master</h2>
-=======
-  <h2>Working on Function AJAX-DATA- In overlay</h2>
->>>>>>> overlay
+  <h2>Sidenav Push Example</h2>
   <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
-   <p>Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
+   <p>. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
     <p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
   <!--<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>-->
 </div>
-<p id="console" > </p> 
 <div title="click to add reservation" onclick="openNav();" id="overlay">
 <span>&lsaquo;</span>
 </div>
@@ -187,17 +176,10 @@ $('.childOfDiv').each(function (){
 	
 	     $(this).datepicker({ dateFormat: "dd.mm.yy",
                                  onClose: function(){
-
-                                              var sCheckDate = validate($(this).val());
-
-                                              return sCheckDate;
-
-                                              }
-
+                                     validate($(this).val());
+                                                }
                             });
-
 	    }
-
     });
 
 /***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
@@ -221,7 +203,7 @@ $( "#myBtnWeiter" ).click(function() {
   
   var sIdOfClonedElt = "#"+"child"+nCount+" "+":input";
   
-    //console.log($(sIdOfClonedElt).length);
+    console.log($(sIdOfClonedElt).length);
 	
 	$(sIdOfClonedElt).each(function (index, value){
 	
@@ -230,51 +212,53 @@ $( "#myBtnWeiter" ).click(function() {
 	   if ($(this).attr('name') === "startdate" || $(this).attr('name')==="enddate"){
 	
 	     $(this).removeClass('hasDatepicker')
-		       
-            .removeAttr("id")
-                
+		        .removeAttr("id")
                 .datepicker({ dateFormat: "dd.mm.yy",
-
                                  onClose: function(){
-
-                                                var sCheckDate = validate($(this).val());
-
-                                                 return sCheckDate;
-                                                
+                                                validate($(this).val());
                                                 }
-
                             });
-
 	    }
-
     });
-
  }); 
  
 /***************END OF JQUERY-FUNCTION ************************************/
 
+function validate(dateText){
+        
+		  var  sErrorMsg="";
+		  
+		    if(dateText == null || dateText== ""){
+			   
+			      sErrorMsg ="Empty date not allowed!"
+				 
+				  console.log(sErrorMsg);
+				 // bIsEmpty = !bIsEmpty;
+			   }
+			   
+			return sErrorMsg;
+		
+    }
 
 
 /// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event){
+window.onclick = function(event) {
 //console.log("inside 2 js "+event.target.nodeName);
-   if (event.target.nodeName === "HTML"){
+   if (event.target.nodeName === "HTML") {
 	
         /*
 		   document.getElementById("mySidenav").style.display = "none";
 		   document.getElementById("main").style.marginLeft= "0"; 
 		 */
 		 document.getElementById("mySidenav").style.width = "0";
-
-     document.body.style.backgroundColor = "white";
+         document.body.style.backgroundColor = "white";
 		
 		//console.log("inside 3 js ");
 		
     }
-
 }
 
-function openNav(){
+function openNav() {
 
      /* 
 	   document.getElementById("mySidenav").style.width = "850px";
@@ -285,79 +269,20 @@ function openNav(){
 	 */
      //document.body.style.overflow ="scroll";
 	 document.getElementById("mySidenav").style.position ="absolute";
-
 	 document.getElementById("mySidenav").style.width ="500px";
-
 	  //document.getElementById("mySidenav").style.height ="850px";
 	 //document.getElementById("mySidenav").style.overflow ="scroll";
-
-  document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+     document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
 	
 }
 
-function closeNav(){
 
+
+function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
-
     document.getElementById("main").style.marginLeft= "0";
-
     document.body.style.backgroundColor = "white";
-
 }
-
-function request(callback){
-
-    var xhr = getXMLHttpRequest();
-
-    xhr.onreadystatechange = function(){
-
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)){
-
-            callback(xhr.responseText); //recuperation de donnees sous forme textuel
-
-
-        }
-
-    };
-
-    var oStoredData = getJsonData();
-  
-    xhr.open("POST", "service.php", true);
-  
-  //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-  //data = encodeURIComponent("saved")+"="+encodeURIComponent(JSON.stringify(data));
-
-  //alert(data);
-  
-    xhr.send(oStoredData);
-
-     document.getElementById("mySidenav").style.width = "0";
-
-    document.getElementById("main").style.marginLeft= "0";
-
-    document.body.style.backgroundColor = "white";
-
-}
-
-function readData(sData){
-
-    if (sData) {
-
-      //  alert("C'est bon"+sData);
-
-      document.getElementById("console").innerHTML = "...."+sData;
-
-    } else {
-
-        alert("Y'a eu un problème");
-
-    }
-
-}
-
 
 
 </script>
