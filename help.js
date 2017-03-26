@@ -2,27 +2,31 @@
 /**
 *
 *@autor : Edmond
-*@version : 02 November 2016
+*@version : November 2016
 *
 **/
 
-//This function helps to add a new booking by cloning the inputs fields of the form
+/**
+ *
+ * This function helps to add a new booking by cloning the inputs fields
+ * of the form
+ *
+ **/
  function cloneDiv(){ //beginn of cloneDiv
            
            //Div with the id personAttribute
 		   var oParentDiv = document.getElementById("personAttribute");
 		   
-			//Count the number of div inside oParentDiv and add 1
-			//var iNberOfDiv = oParentDiv.getElementsByTagName("div").length+1;
-			var iNberOfDiv = oParentDiv.getElementsByTagName("div").length;
+		   //Count the number of div inside oParentDiv 
+		   var iNberOfDiv = oParentDiv.getElementsByTagName("div").length;
 
-			var oNewDiv ={};
+		   var oNewDiv ={};
 
-			var  strIdOfFirstDiv = "";
+		   var  strIdOfFirstDiv = "";
 
 			strIdOfFirstDiv = "child"+(iNberOfDiv).toString();//child1
 
-			var x = document.getElementById(strIdOfFirstDiv).getElementsByTagName('input').length;
+		   var x = document.getElementById(strIdOfFirstDiv).getElementsByTagName('input').length;
 
 			for (var i = x - 1; i >= 0; i--) {
 
@@ -31,18 +35,13 @@
         
 	        for (var i = iNberOfDiv - 1; i >= 0; i--) {
 
-                  strIdOfFirstDiv = "child"+(iNberOfDiv).toString();//child1
-
-                  //console.log(strIdOfFirstDiv);
-
-
+                  strIdOfFirstDiv = "child"+(iNberOfDiv).toString();
 
                   //create a copy of the <div> element and its child nodes
                   oNewDiv = document.getElementById(strIdOfFirstDiv).cloneNode(true); 
 				  
-				//  http://stackoverflow.com/questions/2441061/problem-when-cloning-jquery-ui-datepicker
+				  //http://stackoverflow.com/questions/2441061/problem-when-cloning-jquery-ui-datepicker
 
-                  //console.log(strParent); //child1
 			       var oBtnWeiter = document.getElementById("myBtnWeiter");  
 
 			       oBtnWeiter.disabled = true;                
@@ -51,12 +50,8 @@
 	        	  oNewDiv.id = "child" + (iNberOfDiv+1).toString();
 	        		
 	        	}		
-      
-			//var oNewDiv = document.getElementById("child1").cloneNode(true); 
-			
-			//oNewDiv.id = "child"+ iNberOfDiv;
-			
-             console.log(oNewDiv);
+      			
+             //console.log(oNewDiv);
 
 			var oInputs = oNewDiv.getElementsByTagName('input');
 			
@@ -78,7 +73,7 @@
 
             	 var ifactor = oParentDiv.getElementsByTagName("div").length-2;
 
-            	 console.log("tetette"+ifactor);
+            	 //console.log("tetette"+ifactor);
 
             	if (oParentDiv.getElementsByTagName("div")[ifactor]) {
 
@@ -90,19 +85,18 @@
 										
 						}
 
-            	}
-
-            	
+            	}	
 
             }
+
   } // end of cloneDiv
   
-  /* 
+  /**
    *
    * Check if the inputs fields inside the <form> element are set.
    * Enable the <addUser> button.
    * 
-   */
+   **/
   function checkData(elt){ // beginn of checkData
 
 			var bIsEmpty= false;
@@ -151,9 +145,10 @@
 
 
 			
-}// end of checkData
+} // end of checkData
 
-function disableButtonAddUser(elt){
+
+function disableButtonAddUser(elt){ // begin of disableButtonAddUsser
 
 var bIsEmpty= false;
 
@@ -161,4 +156,60 @@ var oBtnWeiter = document.getElementById("myBtnWeiter");
 
  oBtnWeiter.disabled = false;
 
-}
+} // end of disableButtonAddUsser
+
+/** 
+ * 26.03.2017
+ * Create an array-object, then fill it with form-data.
+ * Store the data in the array-object and convert it to Json.
+ * 
+ **/
+function getJsonData(){ // begin of getJsonData
+
+var oEmptyArray = {"items":[]}; 
+
+ $('[id^=child]').each(function(){ // loop in to the input's wrapper  
+
+     var obj = {
+
+	    startdate :  $(this).find("input[name*='startdate']").val(), // place the startdate in a new object. name is = startdate
+	    
+	    enddate   :  $(this).find("input[name*='enddate']").val(), // place the enddate in a new object
+        
+        firstname :  $(this).find("input[name^='first']").val(), // place the firstname in a new object. name startswith first
+       
+        lastname  : $(this).find("input[name^='last']").val() // place the lastname in a new object
+      
+      };
+      
+      oEmptyArray.items.push(obj); // push in the "oEmptyArray" object created
+   
+    });
+
+    var oFilled = JSON.stringify(oEmptyArray);    	
+
+     return oFilled; // send an JSON-String-objet(s) back. 
+    
+} // end of getJsonData
+
+
+/**
+* 
+* Check if require fields are given.
+* 
+**/
+function validate(dateText){ //begin of validate
+        
+		  var  sErrorMsg="";
+		  
+		    if(dateText == null || dateText== ""){
+			   
+			      sErrorMsg ="Empty date not allowed!"
+				 
+				  console.log(sErrorMsg);
+				 // bIsEmpty = !bIsEmpty;
+			   }
+			   
+			return sErrorMsg;
+		
+} // end of validate

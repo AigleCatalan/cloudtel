@@ -1,0 +1,88 @@
+.besetzt {
+	background-color: gray;
+	border-left-color: gray;
+	border-right-color: gray;
+}
+
+.selectableTD {
+	cursor: cell;
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	width: 100%;
+}
+
+table td {
+	border: 1px solid #999;
+		width: 80px;
+	height: 40px;
+	margin: 10px; 
+	
+}
+
+#roomDiv {
+	position: relative;
+	width: 10%;
+}
+
+#tableDiv {
+	position: relative;
+	width: 90%;
+}
+
+table.fixed {
+	table-layout: fixed;
+}
+
+table.fixed td {
+	overflow: hidden;
+}
+
+#monthTable {
+	width: 100%;
+}
+
+#firstMonth {
+	background-color: olive;
+}
+
+#secondMonth {
+	background-color: fuchsia;
+}
+
+#divKalendar {
+	width: 100%;
+}
+
+#hotelTable {
+	max-width: 100%;
+}
+
+td.selected {
+	background-color: green;
+}
+
+#leftKalendar, .floatTable {
+	float: left;
+}
+
+#rightKalendar {
+	float: right;
+}
+
+.firstTd {
+	background-color: yellow;
+	font-style: italic;
+	font-weight: bold;
+}
+
+#monthDiv, #monthTable {
+	width: 100%
+}
+
+#content div {
+	border: 2px solid red;
+	margin: 5px;
+}

@@ -1,0 +1,2 @@
+
+var allDayToSchowInKalendar = "sjkhdkshdk";
