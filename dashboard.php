@@ -1,31 +1,31 @@
 <?php
-include 'getRoonOfDb.php';
+include 'module_booking/services/service_getAllRoonFromDatabase.php';
 // include 'getReservierungData.php';
 // include 'insertData.php';
 ?>
+
 <html>
 <head>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
-	type="text/javascript"></script>
-<link rel="stylesheet" href="style.css">
-<script src="global_vars.js" type="text/javascript"></script>
-<script src="tableGenerate.js" type="text/javascript"></script>
-<script type="text/javascript" src="help.js"></script>
-<script type="text/javascript" id="tableSelect" src="tableSelector.js"></script>
-<script type="text/javascript" id="tableSelect"
-	src="loadDataFromDbAndShowInTheTable.js"></script>
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!--  <link rel="stylesheet" href="/resources/demos/style.css">-->
+<link rel="stylesheet" href="stylesheet/style.css">
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<script type="text/javascript" src="ed_oXHR.js"></script>
+<script type="text/javascript" src="global_vars.js"></script>
+<script type="text/javascript"
+	src="module_booking/services/service_tableGenerate.js"></script>
+<script type="text/javascript"
+	src="module_booking/services/service_tableSelector.js"></script>
+<script type="text/javascript" src="module_booking/utility/ar_help.js"></script>
+<script type="text/javascript"
+	src="module_booking/services/service_showDataFromDefinePeriod.js"></script>
+<script type="text/javascript"
+	src="configuration/xmlHttpRequest_configurations.js"></script>
+<script type="text/javascript" src="module_booking/utility/ed_help.js"></script>
 
-<script type="text/javascript" src="ed_help.js"></script>
-
-<!--   Testscrpiten für das Einfügen von für den kalendarpicker    -->
 <script type="text/javascript">
 
 $( function() {
@@ -33,119 +33,135 @@ $( function() {
   } );
 
 </script>
-
-<!--  end des TestScripts -->
-
-<style type="text/css">
-</style>
-
 </head>
 <body>
-<div id="main"> 
+	<div id="main">
 
-	 <p id="console" > processing ...</p> <!-- print out json-->
-    
-      <div id="mySidenav" class="sidenav"> <!--- Beginn of sidenav-->
+		<p id="console">processing ...</p>
+		<!-- print out json-->
 
-        <a class="closebtn" onclick="closeNav()">&times;</a> 
-  
-  	    <form id="addPerson" name ="addPerson" method="post" action="">
-		
-           <div id="personAttribute">
-		  
-			   <div id = "child1">	 
-			            <br> 
-						
-						<input readonly="readonly" type="text" name="startdate"  class="childOfDiv" placeholder="Startdatum format tt.mm.jjjj" onkeyup="checkData(this);"> <p id="error"></p>
-						
-						 <input readonly="readonly" type="text" name="enddate"   class="childOfDiv" placeholder="Enddatum format tt.mm.jjjj" onkeyup="checkData(this);" >   <p id="errorMsg"></p> 
-			   
-						 <input type="text" name="firstname" class="childOfDiv"  onkeyup="checkData(this);" placeholder="Vorname*"><br>
-						
-						 <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);" placeholder="Nachname*"><br>
-						
+		<div id="mySidenav" class="sidenav">
+			<!--- Beginn of sidenav-->
+
+			<a class="closebtn" onclick="closeNav()">&times;</a>
+
+			<form id="addPerson" name="addPerson" method="post" action="">
+
+				<div id="personAttribute">
+
+					<div id="child1">
+						<br> <input readonly="readonly" type="text" name="startdate"
+							class="childOfDiv" placeholder="Startdatum format tt.mm.jjjj"
+							onkeyup="checkData(this);">
+						<p id="error"></p>
+
+						<input readonly="readonly" type="text" name="enddate"
+							class="childOfDiv" placeholder="Enddatum format tt.mm.jjjj"
+							onkeyup="checkData(this);">
+						<p id="errorMsg"></p>
+
+						<input type="text" name="firstname" class="childOfDiv"
+							onkeyup="checkData(this);" placeholder="Vorname*"><br> <input
+							type="text" name="lastname" class="childOfDiv"
+							onkeyup="checkData(this);" placeholder="Nachname*"><br>
+
+					</div>
+
 				</div>
 
-			</div>
+			</form>
 
-        </form>  
- 
-	  <button type="submit"  onclick="request(readData);"> Submit </button>
-            
-	  <button id="myBtnWeiter"  onclick="cloneDiv();" disabled> add More...</button> 	
-		 
-   </div> <!-- End of sidenav-->
+			<button type="submit" onclick="request(readData);">Submit</button>
 
-   <div title="click to add reservation" onclick="openNav();" id="overlay"> <!--- Beginn of overlay-->
+			<button id="myBtnWeiter" onclick="cloneDiv();" disabled>add More...</button>
 
-        <span>&lsaquo;</span>
-
-   </div> <!--- Beginn of overlay-->
-
-
-	<div id="divKalendar">
-		<div id="kalendarNavDiv">
-			<button id="leftKalendar" onclick="leftClick()">
-				<img alt="left" src="navLink.png">
-			</button>
-			<button id="RightKalendar" onclick="rigthClick()">
-				<img alt="rigth" src="navRecht.png">
-			</button>
 		</div>
-		<p style="clear: both;"></p>
-		<div>
-			<div class="floatTable" id="roomDiv">
-				<table id="">
-					<tr>
-						<td></td>
-					</tr>
-				</table>
-				<table id="roomtable">
-					<tr>
-						<td>Objekte</td>
-					</tr>				
+		<!-- End of sidenav-->
+
+		<div title="click to add reservation" onclick="openNav();"
+			id="overlay">
+			<!--- Beginn of overlay-->
+
+			<span>&lsaquo;</span>
+
+		</div>
+		<!--- Beginn of overlay-->
+
+
+		<div id="divKalendar">
+			<div id="kalendarNavDiv">
+				<button id="leftKalendar" onclick="leftClick()">
+					<img alt="left" src="images/navLink.png">
+				</button>
+				<button id="RightKalendar" onclick="rigthClick()">
+					<img alt="rigth" src="images/navRecht.png">
+				</button>
+			</div>
+			<p style="clear: both;"></p>
+			<div>
+				<div class="floatTable" id="roomDiv">
+					<table id="">
+						<tr>
+							<td></td>
+						</tr>
+					</table>
+					<table id="roomtable">
+						<tr>
+							<td>Objekte</td>
+						</tr>				
 				<?php echo $roomTable?>						
 				</table>
-				<input type="hidden" class=" notVisible" id="roomRowNbr"
-					value="<?php echo $RoomNum_rows?>">
+					<input type="hidden" class=" notVisible" id="roomRowNbr"
+						value="<?php echo $RoomNum_rows?>">
+				</div>
+				<div class="floatTable" id="tableDiv">
+				
+				</div>
+				<p style="clear: both;"></p>
 			</div>
-			<div class="floatTable" id="tableDiv"></div>
-			<p style="clear: both;"></p>
+			<input type="text" id="inhalt" name="fname"><br>
 		</div>
-		<input type="text" id="inhalt" name="fname"><br>
-	</div>
-	<br>
-	<br>
-	<div id="content">
-		<form action="" name="insert" method="post">
-			Objekt-Nr: <input type="text" name="objekt" /> <br> <br> Name: <input
-				type="text" name="name" /><br> <br> ANkunft: <input type="text"
-				name="ankunf" class="datepicker" readonly="readonly" /> <br> <br>
-			Auszug: <input type="text" name="auszug" class="datepicker" /> <br> <br>
-			<input type="submit" value="Submit" name="anlegen">
-		</form>
-	</div>	<!-- end of content-->
+		<br> <br>
+		<div id="content">
+			<form action="" name="insert" method="post">
+				Objekt-Nr: <input type="text" name="objekt" /> <br> <br> Name: <input
+					type="text" name="name" /><br> <br> ANkunft: <input type="text"
+					name="ankunf" class="datepicker" readonly="readonly" /> <br> <br>
+				Auszug: <input type="text" name="auszug" class="datepicker" /> <br>
+				<br> <input type="submit" value="Submit" name="anlegen">
+			</form>
+		</div>
+		<!-- end of content-->
 
-	<!-- ****************************************************************scripte****************************************************************** -->
+		<!-- ****************************************************************scripte****************************************************************** -->
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 
 	var endDate = "28.11.2016";
 	
 	var NbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
-	
 	document.getElementById("tableDiv").innerHTML= generateTable(NbrOfRoomRows, 28, endDate);
 	
 	loadData();
 	onlyRead = $(".onlyRead");
 	onlyRead.attr("disabled","disabled");
 	tableSelector();
-
-			// get the list of all Room-Object in js-format 
-		var js_array = <?php echo json_encode($arrayRoomData); ?>;
-		alert(js_array);
-
-	// the function return the indexs of a cell in a table
+	//alert(allDayToSchowInKalendar);	
+	/**
+	*
+	*TODO: implement in order to get all booking information 
+	*/
+	function getbookingInformation(){
+		
+		var definePeriodDays = allDayToSchowInKalendar;
+		// get the list of all Room-Object in js-format 
+		var allRoom = <?php echo json_encode($arrayRoomData); ?>;
+		//alert(allRoom);
+		if(definePeriodDays!=null){
+					
+		}	
+}	
+		// the function return the indexs of a cell in a table
 	function getCell( cell, table )
 	{	    
 	    var result = $( table +' tr').find('td').filter(function(){
@@ -187,7 +203,7 @@ $( function() {
 // 	}
 	</script>
 
-<script>
+		<script>
 
 
 /***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************
@@ -337,15 +353,10 @@ function request(callback){
 
     var oStoredData = getJsonData();
   
-    xhr.open("POST", "ed_service.php", true);
+    xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
   
-  //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
     xhr.setRequestHeader("Content-Type", "application/json");
 
-  //data = encodeURIComponent("saved")+"="+encodeURIComponent(JSON.stringify(data));
-
-  //alert(data);
   
     xhr.send(oStoredData);
 
@@ -375,7 +386,8 @@ function readData(sData){
 
 
 </script>
-	
-</div> <!-- end of main-->
+
+	</div>
+	<!-- end of main-->
 </body>
 </html>

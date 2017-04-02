@@ -1,8 +1,5 @@
 <?php
-include 'config.php';
-
-
-
+include "././configuration/databaseConnection_configuration.php";
 
 $roomTable = '';
 $arrayRoomData  = array(); 

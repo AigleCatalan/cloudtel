@@ -5,16 +5,14 @@
 // Ajax function
 function loadData() {
 
-	
-	
-	var startdate = "2016-12-08";
-	var endDate = "2016-11-11";
+	var startdate = "2016-11-11";
+	var endDate = "2016-12-08";
 
 	$
-			.ajax({
+	.ajax({
 				type : 'POST',
-				url : "getReservierungData.php",
-				data: ({startDate: "2016-12-08", enddate: "2016-11-11"}),
+				url : "./module_booking/services/service_getDataFromDefinePeriod.php",
+				data: ({startDate: endDate, enddate:startdate}),
 				dataType : "json"
 			})
 			.success(

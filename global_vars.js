@@ -1,0 +1,3 @@
+
+var allDayToSchowInKalendar;
+var positionOfmonthChanged;

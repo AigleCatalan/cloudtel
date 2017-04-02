@@ -78,7 +78,9 @@ function generateTable(rows, cols, date) {
 		// when first row
 		if (r == 0) {
 			table += '<tr class = "onlyRead">';
-			alert (listOfdateString[2]);
+				// get the position of month changed
+			positionOfmonthChanged = listOfdateString[2];
+			//alert ("position of monat change in service tablegenerate " +listOfdateString[2]);
 			for (var c = 0; c < cols; c++) {
 				var currentValue = listOfdateString[c];
 				var cellsContent = splitString(currentValue, 0);
