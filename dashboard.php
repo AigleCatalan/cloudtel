@@ -28,7 +28,8 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 
 <script type="text/javascript">
 
-$( function() {
+// set jquery-Datepicker 
+$(function() {
     $( ".datepicker" ).datepicker();
   } );
 
@@ -36,9 +37,6 @@ $( function() {
 </head>
 <body>
 	<div id="main">
-
-		<p id="console">processing ...</p>
-		<!-- print out json-->
 
 		<div id="mySidenav" class="sidenav">
 			<!--- Beginn of sidenav-->
@@ -75,19 +73,17 @@ $( function() {
 
 			<button id="myBtnWeiter" onclick="cloneDiv();" disabled>add More...</button>
 
-		</div>
-		<!-- End of sidenav-->
+		</div><!-- End of sidenav-->
 
+        <!--- click on this element to show sidenav -->
 		<div title="click to add reservation" onclick="openNav();"
 			id="overlay">
-			<!--- Beginn of overlay-->
-
+			
 			<span>&lsaquo;</span>
 
 		</div>
-		<!--- Beginn of overlay-->
-
-
+		
+        <!-- beginn of Dashboard-->
 		<div id="divKalendar">
 			<div id="kalendarNavDiv">
 				<button id="leftKalendar" onclick="leftClick()">
@@ -96,8 +92,9 @@ $( function() {
 				<button id="RightKalendar" onclick="rigthClick()">
 					<img alt="rigth" src="images/navRecht.png">
 				</button>
+				<p style="clear: both;"></p>
 			</div>
-			<p style="clear: both;"></p>
+			
 			<div>
 				<div class="floatTable" id="roomDiv">
 					<table id="">
@@ -120,7 +117,8 @@ $( function() {
 				<p style="clear: both;"></p>
 			</div>
 			<input type="text" id="inhalt" name="fname"><br>
-		</div>
+		</div><!-- End of Dashboard-->
+
 		<br> <br>
 		<div id="content">
 			<form action="" name="insert" method="post">
