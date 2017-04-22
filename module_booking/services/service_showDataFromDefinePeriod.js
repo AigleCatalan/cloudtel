@@ -2,7 +2,7 @@
  * 
  */
 
-// Ajax function
+//TODO: setting the start- and endDate as Parameters 
 function loadData() {
 
 	var startdate = "2016-11-11";
@@ -16,7 +16,7 @@ function loadData() {
 				dataType : "json"
 			})
 			.success(
-					function(data) {
+					function(data) {d
 						for (var i = 0; i < data.length; i++) {
 
 							var startAndEndreservaitionPeriod = '';
