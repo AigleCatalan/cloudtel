@@ -1,5 +1,8 @@
+
 /**
  * Transform a Date to a string in format dd.mm.yy
+ * @param date
+ * @returns {String}
  */
 function dateToString(date) {
 
@@ -8,27 +11,30 @@ function dateToString(date) {
 	var day = date.getDate();
 	var month = date.getMonth() + 1;
 	var year = date.getYear() + 1900;
-	date = day + "." + month + "." + year;
-	return date;
+	strdate = day + "." + month + "." + year;
+	return strdate;
 }
 
 /**
  * Transform a string to a Date in format mm/dd/yy
+ * @param stringDate
+ * @returns {Date}
  */
-
 function stringToDate(stringDate) {
 
 	var strSplit = stringDate.split(".");
 	var day = strSplit[0];
 	var month = strSplit[1];
 	var year = strSplit[2];
-	var date = month + "/" + day + "/" + year;
-	date = new Date(date);
+	var strdate = month + "/" + day + "/" + year;
+	date = new Date(strdate);
 	return date;
 }
+
 /**
- * 
  * search the valid period of 28 Day
+ * @param enddate in string Format
+ * @returns {Array}
  */
 function searchNextForteenDay(enddate) {
 
@@ -40,9 +46,11 @@ function searchNextForteenDay(enddate) {
 	startdate.setDate(startdate.getDate() - 28);
 	return [ startdate, endDate ];
 }
+
 /**
- * 
  * Generate the Liste of 28 days in String Format.
+ * @param startAnEndDate
+ * @returns {Array}
  */
 function generateListOfDate(startAnEndDate) {
 	var i = 0;
@@ -65,6 +73,23 @@ function generateListOfDate(startAnEndDate) {
 	}
 	return dateListString;
 }
+
+/**
+ * the function return the indexs of a cell in a table
+ * @param cell
+ * @param table
+ * @returns {Array}
+ */
+function getCell( cell, table )
+{	    
+    var result = $( table +' tr').find('td').filter(function(){
+		return $(this).text()===cell;
+	    });
+	var index = new Array();
+	index[0] =result.parent().index();
+	index[1] =result.index();;	 	   
+    return index;    
+ }
 
 /**
  * This Function take an String in a Format mmyy an format this to a Format

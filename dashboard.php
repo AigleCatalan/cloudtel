@@ -1,7 +1,5 @@
 <?php
 include 'module_booking/services/service_getAllRoonFromDatabase.php';
-// include 'getReservierungData.php';
-// include 'insertData.php';
 ?>
 
 <html>
@@ -13,8 +11,9 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <script type="text/javascript" src="global_vars.js"></script>
+<script type="text/javascript" src="utility/help.js"></script>
+<script type="text/javascript" src="module_booking/utility/help.js"></script>
 <script type="text/javascript"
 	src="module_booking/services/service_tableGenerate.js"></script>
 <script type="text/javascript"
@@ -32,12 +31,11 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 $(function() {
     $( ".datepicker" ).datepicker();
   } );
-
+  
 </script>
 </head>
 <body>
 	<div id="main">
-
 		<div id="mySidenav" class="sidenav">
 			<!--- Beginn of sidenav-->
 
@@ -65,15 +63,11 @@ $(function() {
 							onkeyup="checkData(this);" placeholder="Vorname*"><br> <input
 							type="text" name="lastname" class="childOfDiv"
 							onkeyup="checkData(this);" placeholder="Nachname*"><br>
-
 					</div>
-
 				</div>
-
 			</form>
 
 			<button type="submit" onclick="request(readData);">Submit</button>
-
 			<button id="myBtnWeiter" onclick="cloneDiv();" disabled>add More...</button>
 
 		</div><!-- End of sidenav-->
@@ -81,18 +75,16 @@ $(function() {
         <!--- click on this element to show sidenav -->
 		<div title="click to add reservation" onclick="openNav();"
 			id="overlay">
-			
 			<span>&lsaquo;</span>
-
 		</div>
 		
         <!-- beginn of Dashboard-->
 		<div id="divKalendar">
 			<div id="kalendarNavDiv">
-				<button id="leftKalendar" onclick="leftClick()">
+				<button id="leftKalendar" onclick="getAPreviousPeriodeClick()">
 					<img alt="left" src="images/navLink.png">
 				</button>
-				<button id="RightKalendar" onclick="rigthClick()">
+				<button id="RightKalendar" onclick="getANextPeriodeClick()">
 					<img alt="rigth" src="images/navRecht.png">
 				</button>
 				<p style="clear: both;"></p>
@@ -100,111 +92,82 @@ $(function() {
 			
 			<div>
 				<div class="floatTable" id="roomDiv">
-					<table id="">
+				
+					<!-- this is a empty table on the top of the Object-table in order to get a good layout -->
+					<table>
 						<tr>
 							<td></td>
 						</tr>
 					</table>
+					
+					<!-- this is the Table with all room Information -->
 					<table id="roomtable">
 						<tr>
 							<td>Objekte</td>
 						</tr>				
-				<?php echo $roomTable?>						
-				</table>
+						<?php echo $roomTable?>						
+					</table>
+					<!-- this helps to save a number of all rooms, this is used to generate the booking table -->
 					<input type="hidden" class=" notVisible" id="roomRowNbr"
 						value="<?php echo $RoomNum_rows?>">
 				</div>
+				
+				<!-- this is the table with all booking infomation -->
 				<div class="floatTable" id="tableDiv">
 				
 				</div>
 				<p style="clear: both;"></p>
 			</div>
+			
+			<!-- this is a help field. could be used to save particular information -->
 			<input type="text" id="inhalt" name="fname"><br>
-		</div><!-- End of Dashboard-->
-
-		<br> <br>
-		<div id="content">
-			<form action="" name="insert" method="post">
-				Objekt-Nr: <input type="text" name="objekt" /> <br> <br> Name: <input
-					type="text" name="name" /><br> <br> ANkunft: <input type="text"
-					name="ankunf" class="datepicker" readonly="readonly" /> <br> <br>
-				Auszug: <input type="text" name="auszug" class="datepicker" /> <br>
-				<br> <input type="submit" value="Submit" name="anlegen">
-			</form>
 		</div>
+		<!-- End of Dashboard-->
 		<!-- end of content-->
 
-		<!-- ****************************************************************scripte****************************************************************** -->
+		<!-- *************************scripte************************************** -->
+<script type="text/javascript">
 
-		<script type="text/javascript">
+	// TODO: please set the rigth Date before going produtive
+	// the EndDate needed to generate the booking Table 
+	var endDateFromFirstBookingTableGeneration = "28.11.2016";
+	
+	var nbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
+	document.getElementById("tableDiv").innerHTML= generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
 
-	var endDate = "28.11.2016";
-	
-	var NbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
-	document.getElementById("tableDiv").innerHTML= generateTable(NbrOfRoomRows, 28, endDate);
-	
+	// after create the Table all the data for the Period will be loaded.
 	loadData();
+	// set date Row onlyread
 	onlyRead = $(".onlyRead");
 	onlyRead.attr("disabled","disabled");
+	// The table Seletor to get the Possibility to make a select on the table
 	tableSelector();
-	//alert(allDayToSchowInKalendar);	
-	/**
-	*
-	*TODO: implement in order to get all booking information 
-	*/
-	function getbookingInformation(){
-		
-		var definePeriodDays = allDayToSchowInKalendar;
-		// get the list of all Room-Object in js-format 
-		var allRoom = <?php echo json_encode($arrayRoomData); ?>;
-		//alert(allRoom);
-		if(definePeriodDays!=null){
-					
-		}	
-}	
-		// the function return the indexs of a cell in a table
-	function getCell( cell, table )
-	{	    
-	    var result = $( table +' tr').find('td').filter(function(){
-			return $(this).text()===cell;
-		    });
-		var index = new Array();
-		index[0] =result.parent().index();
-		index[1] =result.index();;	 	   
-	    return index;    
-	 }
 
-	 function leftClick(){
-		 var endDateVormat = stringToDate(endDate);
+	 // a click Funktion to get the last forteen (actually periode) days an  update the booking table
+	 function getAPreviousPeriodeClick(){
+		 var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
 		 
-		 	endDateVormat.setDate(endDateVormat.getDate() - 14);
-			endDateVormat = dateToString(endDateVormat);
-			endDate = endDateVormat;
-		 document.getElementById("tableDiv").innerHTML = generateTable(NbrOfRoomRows, 28, endDate);
+		 	endDateFormat.setDate(endDateFormat.getDate() - 14);
+			endDateFormat = dateToString(endDateFormat);
+			endDateFromFirstBookingTableGeneration = endDateFormat;
+		 	document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
+			// reload all Booking Information and tableSelector
 		 loadData();
 		 tableSelector();
 		 
 	 }
+		// a click Funktion to get the next forteen (actually periode) days an  update the booking table
+	function getANextPeriodeClick(){
 
-	function rigthClick(){
-
-		 var endDateVormat = stringToDate(endDate);
-		 endDateVormat.setDate(endDateVormat.getDate() + 14);
-		 endDateVormat = dateToString(endDateVormat);
-		endDate = endDateVormat;
-		 document.getElementById("tableDiv").innerHTML = generateTable(NbrOfRoomRows, 28,endDate);
+		 var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
+		 endDateFormat.setDate(endDateFormat.getDate() + 14);
+		 endDateFormat = dateToString(endDateFormat);
+		 endDateFromFirstBookingTableGeneration = endDateFormat;
+		 document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28,endDateFromFirstBookingTableGeneration);
+			// reload all Booking Information and tableSelector
 		 loadData();
 		 tableSelector();
 	 }
-
-	// change the value of a cell content
-// 	function setRowPrice(tableId, rowId, colNum, newValue)
-// 	{
-// 	    $('#'+table).find('tr#'+rowId).find('td:eq(colNum)').html(newValue);
-// 	}
-	</script>
-
-		<script>
 
 
 /***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************

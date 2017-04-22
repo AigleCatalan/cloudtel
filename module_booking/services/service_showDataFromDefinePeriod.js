@@ -16,7 +16,7 @@ function loadData() {
 				dataType : "json"
 			})
 			.success(
-					function(data) {d
+					function(data) {
 						for (var i = 0; i < data.length; i++) {
 
 							var startAndEndreservaitionPeriod = '';
