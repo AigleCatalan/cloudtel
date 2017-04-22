@@ -1,13 +1,3 @@
-/**
- * 
- * 
- */
-/*
- * 
- * function updateClass( oldClassName, newClassName){
- * $(this).removeClass(oldClassName); $(this).addClass(newClassName); }
- * 
- */
 var NumberOfDay = 28;
 /**
  * split a STring an return an Element on the Index
@@ -31,13 +21,12 @@ function splitString(dateString, index) {
  * @returns {Number}
  */
 function CalculatePercentage(fraction, total) {
-
 	var percentage = (fraction * 100) / total;
 	return percentage;
 }
 
 /**
- * generate the Table
+ * generate the booking table
  * 
  * @param rows
  * @param cols
@@ -52,35 +41,37 @@ function generateTable(rows, cols, date) {
 	var monthRows = '';
 	var listOfdateString = generateListOfDate(searchNextForteenDay(setdate));
 	allDayToSchowInKalendar = listOfdateString;
-	
+
 	var listOfmont = searchMonthAndYear(listOfdateString)[0];
 	var positionOfMonthChange = searchMonthAndYear(listOfdateString)[1];
 
 	// create the Row of the Month and Year
 	tableMonth += '<tr>';
-	for (var int = 0; int < listOfmont.length; int++) {
+	for (var count = 0; count < listOfmont.length; count++) {
 
-		if (int == 0) {
+		if (count == 0) {
 			var ElementOfFirstMonth = positionOfMonthChange;
 			tableMonth += '<td id = "firstMonth" style = "width:'
 					+ CalculatePercentage(ElementOfFirstMonth, NumberOfDay)
-					+ '% " >' + listOfmont[int] + '</td>';
+					+ '% " >' + listOfmont[count] + '</td>';
 		} else {
 			var elementOfSecondMonth = NumberOfDay - positionOfMonthChange;
-			tableMonth += '<td id = "secondMonth">' + listOfmont[int] + '</td>';
+			tableMonth += '<td id = "secondMonth">' + listOfmont[count]
+					+ '</td>';
 		}
 	}
 	tableMonth += '</tr>';
 
 	// Create the complete table
-	for (var r = 0; r < rows; r++) {
+	for (var rowCount = 0; rowCount < rows; rowCount++) {
 
 		// when first row
-		if (r == 0) {
+		if (rowCount == 0) {
 			table += '<tr class = "onlyRead">';
-				// get the position of month changed
+			// get the position of month changed
 			positionOfmonthChanged = listOfdateString[2];
-			//alert ("position of monat change in service tablegenerate " +listOfdateString[2]);
+			// alert ("position of monat change in service tablegenerate "
+			// +listOfdateString[2]);
 			for (var c = 0; c < cols; c++) {
 				var currentValue = listOfdateString[c];
 				var cellsContent = splitString(currentValue, 0);
@@ -101,19 +92,16 @@ function generateTable(rows, cols, date) {
 	}
 
 	var result = '<table id = "monthTable">' + tableMonth + '</table>';
-	result+= '<table id = "hotelTable">' + table + '</table>';
-	
+	result += '<table id = "hotelTable">' + table + '</table>';
+
 	return result;
-//	document.write('<div class="floatTable" id="tableDiv" >')
-//	document.write('<table id = "monthTable">' + tableMonth + '</table>');
-//	document.write('<table id = "hotelTable">' + table + '</table>');
-//	document.write('</div>')
 }
 
 /**
  * get a List of all Month and position who then month changed
  * 
- * @param dateArray  
+ * @param dateArray
+ * @returns {Array}
  */
 function searchMonthAndYear(dateArray) {
 
@@ -127,7 +115,8 @@ function searchMonthAndYear(dateArray) {
 				+ splitString(dateArray[int], 2);
 
 		if (int != 0) {
-			if (currentMonth != (splitString(dateArray[int - 1], 1) + splitString(dateArray[int - 1], 2))) {
+			if (currentMonth != (splitString(dateArray[int - 1], 1) + splitString(
+					dateArray[int - 1], 2))) {
 
 				ListOfMonth.push(formatMonth(currentMonth));
 				positionInList = int;
@@ -141,4 +130,3 @@ function searchMonthAndYear(dateArray) {
 	return [ ListOfMonth, positionInList ]
 
 }
-

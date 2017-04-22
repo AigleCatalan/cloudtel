@@ -4,26 +4,34 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 
 <html>
 <head>
-<link rel="stylesheet" href="stylesheet/style.css">
-
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script> -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet"
+	<!-- stylesheet -->
+	<link rel="stylesheet" href="stylesheet/style.css">
+	
+	<!-- externe library -->
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script> -->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script type="text/javascript" src="global_vars.js"></script>
-<script type="text/javascript" src="utility/help.js"></script>
-<script type="text/javascript" src="module_booking/utility/help.js"></script>
-<script type="text/javascript"
-	src="module_booking/services/service_tableGenerate.js"></script>
-<script type="text/javascript"
-	src="module_booking/services/service_tableSelector.js"></script>
-<script type="text/javascript" src="module_booking/utility/ar_help.js"></script>
-<script type="text/javascript"
-	src="module_booking/services/service_showDataFromDefinePeriod.js"></script>
-<script type="text/javascript"
+	
+	<!-- help scripts -->
+	<script type="text/javascript" src="utility/global_vars.js"></script>
+	<script type="text/javascript" src="utility/help.js"></script>
+	<script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
+	<script type="text/javascript" src="module_booking/utility/ed_help.js"></script>
+
+	<!-- configuration script -->
+	<script type="text/javascript"
 	src="configuration/xmlHttpRequest_configurations.js"></script>
-<script type="text/javascript" src="module_booking/utility/ed_help.js"></script>
+	
+	<!-- scripts -->
+	<script type="text/javascript"
+	src="module_booking/services/service_tableGenerate.js"></script>
+	<script type="text/javascript"
+	src="module_booking/services/service_tableSelector.js"></script>
+	<script type="text/javascript"
+	src="module_booking/services/service_showDataFromDefinePeriod.js"></script>
+
 
 <script type="text/javascript">
 

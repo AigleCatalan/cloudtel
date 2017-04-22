@@ -93,7 +93,7 @@ function tableSelector() {
 		
 		// Really Basic but working stuff: Check if the user want to move to another row and if so
 		// set up this cell to the startCellIndex
-		if(startRowIndex === currentCell.parent().index()){
+		if(startRowIndex === currentCell.parent().index()&& checkIfSelectable(currentCell.get(0))){
 			// if left to right
 			if(startCellIndex < currentCell.index()){
 				selectTo(currentCell);

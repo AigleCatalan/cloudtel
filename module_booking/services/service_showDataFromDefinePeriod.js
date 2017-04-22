@@ -53,6 +53,8 @@ function loadData() {
 										'td:eq(' + 0 + ')').html(name);
 
 							}
+							
+							// color the used field on the table
 							// get the Duration of the Reservations
 							var stayDuration = generateListOfDate(startAndEndreservaitionPeriod);
 							for (var j = 0; j < stayDuration.length; j++) {
