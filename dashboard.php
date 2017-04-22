@@ -50,12 +50,15 @@ $( function() {
 				<div id="personAttribute">
 
 					<div id="child1">
-						<br> <input readonly="readonly" type="text" name="startdate"
+						<br> <input type="text" name="room" class="childOfDiv"
+							onkeyup="checkData(this);" placeholder="Room">
+							
+						<br> <input type="text" name="startdate"
 							class="childOfDiv" placeholder="Startdatum format tt.mm.jjjj"
 							onkeyup="checkData(this);">
 						<p id="error"></p>
 
-						<input readonly="readonly" type="text" name="enddate"
+						<input type="text" name="enddate"
 							class="childOfDiv" placeholder="Enddatum format tt.mm.jjjj"
 							onkeyup="checkData(this);">
 						<p id="errorMsg"></p>

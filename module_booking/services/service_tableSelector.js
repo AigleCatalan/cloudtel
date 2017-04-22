@@ -6,12 +6,11 @@ function tableSelector() {
 	var table = $("#hotelTable");
 	var isMouseDown = false;
 	var startRowIndex = null;
+	var startCell = null;
 	var startCellIndex = null;
 	var EndRowIndex = null;
 	var EndCellIndex = null;
-	var test = null;
-	var test2 = null;
-	var test3 = null;
+	var data = {};
 
 	function selectTo(cell) {
 
@@ -41,64 +40,114 @@ function tableSelector() {
 
 		for (var i = rowStart; i <= rowEnd; i++) {
 			var rowCells = table.find("tr").eq(i).find("td");
-
 			//while (rowCells.getClassName == ".selectableTD") {
 				for (var j = cellStart; j <= cellEnd; j++) {
-					rowCells.eq(j).addClass("selected");
+					  // Only marked as selected if current cell is not occupied.
+					  if(checkIfSelectable(rowCells.eq(j).get(0)))
+						  rowCells.eq(j).addClass("selected");
 				}
-			//}
-		}
-
+		}		
 	}
-
+	
+	function  checkIfSelectable(cell)
+	{
+		return cell.className !="besetzt"
+	}
+	
 	table.find(".selectableTD").mousedown(function(e) {
 		isMouseDown = true;
-		var cell = $(this);
-		table.find(".selected").removeClass("selected"); // deselect
-
+		startCell = $(this);
+		table.find(".selected").removeClass("selected"); 
+		
 		if (e.shiftKey) {
-			selectTo(cell);
+			EndCellIndex = startCell.index();
+			EndRowIndex = startCell.parent().index();
+			
+			if (checkIfSelectable(startCell.get(0)) && startRowIndex === EndRowIndex && startCellIndex < EndCellIndex){
+				selectTo(startCell); 
+			}else
+				{
+				    setNotAllowedCursor()
+					resetSelection();
+				}
+					
 		} else {
-			cell.addClass("selected");
-			startCellIndex = cell.index();
-			startRowIndex = cell.parent().index();
-			test = "cell:" + startCellIndex + " row:" + startRowIndex;
+			// Check if the cell is not occupied before selected
+			if (checkIfSelectable(startCell.get(0))){
+				startCell.addClass("selected");	
+				startCellIndex = startCell.index();
+				startRowIndex = startCell.parent().index();					
+			}else
+				startRowIndex = null;
 		}
-
 		return false; // prevent text selection
-	}).mouseover(function() {
+	})
+
+	// Mouseover event
+	table.find(".selectableTD").mouseenter(function() {
 		if (!isMouseDown)
 			return;
 		table.find(".selected").removeClass("selected");
-		selectTo($(this));
-		EndCellIndex = $(this).index();
-		EndRowIndex = $(this).parent().index();
-
-		test2 = "  // cellEnd:" + EndCellIndex + " :rowEnd" + EndRowIndex;
-	});
-	// .bind("selectstart", function() {
-	// return true;
-	// });
-
+		//Mark current cell
+		var currentCell = $(this);
+		
+		// Really Basic but working stuff: Check if the user want to move to another row and if so
+		// set up this cell to the startCellIndex
+		if(startRowIndex === currentCell.parent().index()){
+			// if left to right
+			if(startCellIndex < currentCell.index()){
+				selectTo(currentCell);
+				EndCellIndex = currentCell.index();
+				EndRowIndex = currentCell.parent().index();
+			}
+			else{
+				 setNotAllowedCursor();			
+				resetSelection();
+			}
+		}else	{
+			     setNotAllowedCursor();
+			    resetSelection();
+		}
+	 });
+	
+	function resetSelection(){				
+			EndCellIndex = startCell =startRowIndex = EndRowIndex = startCellIndex = null;
+		    isMouseDown = false;
+	}
+	
+	function setNotAllowedCursor()
+	{
+		table.find(".selectableTD").css( 'cursor', 'not-allowed');
+	}
+	
 	table
 			.find(".selectableTD")
 			.mouseup(
 					function() {
-						isMouseDown = false;
-						test3 = (test + ":" + test2);
-						var s = document.getElementById("inhalt");
-						s.value = test3;
-						isMouseDown = false;
-
-						// get Content of Field
-						var dateFrom = document.getElementById("hotelTable").rows[0].cells[startCellIndex].innerHTML;
-						var roomNr = document.getElementById("roomtable").rows[startRowIndex].cells[0].innerHTML;
-
-						// alert(test3 + " from: " + dateFrom + " zimmer: " +
-						// roomNr);
-						// reset the Variables.
-						test2 = null;
-						test3 = null;
+						if(startCellIndex != null && EndCellIndex != null && startCellIndex <EndCellIndex ){
+							// store all information to data-Object.
+							data.dateFrom = allDayToSchowInKalendar[startCellIndex];
+							data.dateTo = allDayToSchowInKalendar[EndCellIndex];
+							data.roomNr = document.getElementById("roomtable").rows[startRowIndex].cells[0].innerHTML;
+							// set value;
+							setModalValue();
+							// open Modal.
+							 openNav();
+							 resetSelection();
+						}else
+							{
+								   isMouseDown = false;
+								   //reset mouse cursor
+								   table.find(".selectableTD").css( 'cursor', 'cell');
+							}
 					});
+	
+	function setModalValue()
+	{
+		var modalNav = document.getElementById("child1").children
+		modalNav.room.value = data.roomNr;
+		modalNav.startdate.value = data.dateFrom;
+		modalNav.enddate.value = data.dateTo;	
+	}
 
 }
