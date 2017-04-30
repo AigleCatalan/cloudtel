@@ -44,13 +44,13 @@ function loadData() {
 							if (indexEinzug[0] != -1) {
 								$('#hotelTable').find(
 										'tr:eq(' + indexZimmer[0] + ')').find(
-										'td:eq(' + indexEinzug[1] + ')').html(
+										'td:eq(' + indexEinzug[1] + ')').find('div').html(
 										name);
 							} else {
 
 								$('#hotelTable').find(
 										'tr:eq(' + indexZimmer[0] + ')').find(
-										'td:eq(' + 0 + ')').html(name);
+										'td:eq(' + 0 + ')').find('div').html(name);
 
 							}
 							

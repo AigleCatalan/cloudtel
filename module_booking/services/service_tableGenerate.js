@@ -56,7 +56,8 @@ function generateTable(rows, cols, date) {
 					+ '% " >' + listOfmont[count] + '</td>';
 		} else {
 			var elementOfSecondMonth = NumberOfDay - positionOfMonthChange;
-			tableMonth += '<td id = "secondMonth">' + listOfmont[count]
+			tableMonth += '<td id = "secondMonth" style = "width:'
+				+ (100-CalculatePercentage(ElementOfFirstMonth, NumberOfDay))+'% ">' + listOfmont[count]
 					+ '</td>';
 		}
 	}
@@ -85,7 +86,7 @@ function generateTable(rows, cols, date) {
 			table += '<tr>';
 			for (var c = 0; c < cols; c++) {
 				// console.log("cols : " + c + "date: " + dateArray[c]);
-				table += '<td class = "selectableTD">' + '</td>';
+				table += '<td class = "selectableTD">' +'<div class = bookingContent>'+'</div>'+ '</td>';
 			}
 			table += '</tr>';
 		}
