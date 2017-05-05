@@ -13,6 +13,9 @@ function dateToString(date) {
     if (month < 10) {
         month = "0" + month;
     }
+    if (day < 10) {
+        day = "0" + day;
+    }
     strdate = day + "." + month + "." + year;
     return strdate;
 }

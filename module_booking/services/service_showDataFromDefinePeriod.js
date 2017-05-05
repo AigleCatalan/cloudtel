@@ -18,11 +18,12 @@ function loadData() {
         })
         .success(
             function (data) {
-                alert("return");
-                var allDayString = getAllDayShows();
+                var allDayString ="";
                 // alert(data.length);
 
                 for (var i = 0; i < data.length; i++) {
+                    // log
+                    console.log(data[i].objectDescription +" arr "+ data[i].arrivalDate + "depr "+ data[i].departureDate + "\n");
 
                     var startAndEndreservaitionPeriod = new Array();
                     var name = data[i].kName;
@@ -35,7 +36,6 @@ function loadData() {
                     var depatureDate = new Date(auszug);
                     var arrivateDayAndMonth = arrivateDate.getDate() + '-' + arrivateDate.getMonth();
                     var departureDateMonth = depatureDate.getDate() + '-' + depatureDate.getMonth();
-
 
                     startAndEndreservaitionPeriod.push(ankunf);
                     ankunf = dateToString(ankunf);
@@ -88,7 +88,7 @@ function loadData() {
 
                     }
 
-                    // arivale not know
+                    // arrival not know
                     if ($.inArray(arrivateDayAndMonth, prototypMonthDay) >= 0 && $.inArray(departureDateMonth, prototypMonthDay) < 0) {
                         var lastDayInTablle = allDayToSchowInKalendarIndate[allDayToSchowInKalendarIndate.length - 1];
                         var duration = daydiff(arrivateDate, lastDayInTablle);
@@ -174,33 +174,12 @@ function loadData() {
                             width: duration + '%',
                             padding: '8px 0 0 0'
                         });
-
                     }
-
-                    // console.log(objekt + "/-/     " + indexArrivalDay + " / " + indexDepartureDay);
-                    // // prototyp
-                    //
-                    // // color the used field on the table
-                    // // get the Duration of the Reservations
-                    // var stayDuration = generateListOfDate(startAndEndreservaitionPeriod);
-                    // for (var j = 0; j < stayDuration.length; j++) {
-                    //
-                    //     var splitStayDay = stayDuration[j].split(".");
-                    //     var dateIndex = getCell(splitStayDay[0], "#hotelTable");
-                    //     // console.log("di "+ dateIndex[1]);
-                    //     $('#hotelTable').find(
-                    //         'tr:eq(' + indexZimmer[0] + ')').find(
-                    //         'td:eq(' + dateIndex[1] + ')')
-                    //         .addClass("besetzt").removeClass(
-                    //         "selectableTD").attr(
-                    //         "disabled", true);
-                    //     // console.log(dateIndex)
-                    //
-                    // }
                 }
                 console.log("------------------------")
 
             });
+
 }
 
 function stringToDatet(stringDate) {
