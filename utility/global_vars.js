@@ -1,3 +1,4 @@
 
 var allDayToSchowInKalendar;
-var positionOfmonthChanged;
+var allDayToSchowInKalendarIndate;
+var prototypMonthDay;
