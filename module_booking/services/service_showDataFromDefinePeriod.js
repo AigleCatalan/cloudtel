@@ -1,14 +1,15 @@
 /**
+ *this function send and ajax-request to the backend system with the start- and enddate and wäit for a responce with
+ *containing all reservation between this periode
  *
- */
+ * is is very important that the date have the format: yyyy-mm-dd  (2017-02-07)
+ * */
 
-//TODO: setting the start- and endDate as Parameters 
 function loadData() {
 
-    var startdate = stringToDatet(allDayToSchowInKalendar[0]);
-    var endDate = stringToDatet(allDayToSchowInKalendar[27]);
+    var startdate = convertStringToDate(allDayToSchowInKalendar[0]);
+    var endDate = convertStringToDate(allDayToSchowInKalendar[27]);
 
-    alert("strat " + startdate + "end " + endDate);
     $
         .ajax({
             type: 'POST',
@@ -18,123 +19,96 @@ function loadData() {
         })
         .success(
             function (data) {
-                var allDayString ="";
-                // alert(data.length);
-
                 for (var i = 0; i < data.length; i++) {
-                    // log
-                    console.log(data[i].objectDescription +" arr "+ data[i].arrivalDate + "depr "+ data[i].departureDate + "\n");
 
-                    var startAndEndreservaitionPeriod = new Array();
-                    var name = data[i].kName;
-                    var objekt = data[i].objectDescription;
-                    var reservNr = data[i].reservNr;
-                    var ankunf = data[i].arrivalDate;
-                    var auszug = data[i].departureDate;
+                    // log all the received data from the server
+                    console.log(data[i].objectDescription + " arr " + data[i].arrivalDate + "depr " + data[i].departureDate + "\n");
 
-                    var arrivateDate = new Date(ankunf);
-                    var depatureDate = new Date(auszug);
-                    var arrivateDayAndMonth = arrivateDate.getDate() + '-' + arrivateDate.getMonth();
-                    var departureDateMonth = depatureDate.getDate() + '-' + depatureDate.getMonth();
+                    // fetch the reservation data into variables
+                    var clientName = data[i].kName;
+                    var objectDescription = data[i].objectDescription;
+                    var strArrival = data[i].arrivalDate;
+                    var strDeparture = data[i].departureDate;
+                    //convert the dates
+                    var dArrivalDate = new Date(strArrival);
+                    var dDepartureDate = new Date(strDeparture);
+                    // this is used to facilitate a content checking
+                    var strArrivalDayAndMonth = dArrivalDate.getDate() + '-' + dArrivalDate.getMonth();
+                    var strDepartureDayAndMonth = dDepartureDate.getDate() + '-' + dDepartureDate.getMonth();
 
-                    startAndEndreservaitionPeriod.push(ankunf);
-                    ankunf = dateToString(ankunf);
-                    var ankunfDay = splitString(ankunf, 0);
+                    strArrival = dateToString(strArrival);
+                    strDeparture = dateToString(strDeparture);
+                    var arrCellIndexRoom = getCell(objectDescription, "#roomtable");
 
-                    startAndEndreservaitionPeriod.push(auszug);
-                    auszug = dateToString(auszug);
-                    var auszugDay = splitString(auszug, 0);
-                    var indexZimmer = getCell(objekt, "#roomtable");
+                    // strDeparture and strArrival stay in the presentation-area
+                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) >= 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) >= 0) {
 
-                    //array index from anzug and auszug in form [romm, day]
-                    var indexEinzug = getCell(ankunfDay, "#hotelTable");
-                    var indexAuszug = getCell(auszugDay, "#hotelTable");
+                        var intStayPeriod = daydiff(dArrivalDate, dDepartureDate);
+                        intStayPeriod = intStayPeriod * 102;
+                        var arrCellIndexArrival = getCell(dArrivalDate.getDate().toString(), "#hotelTable");
 
-                    //dayIndex from arrival an departure  in string
-                    var indexArrivalDay = indexEinzug[1];
-                    var indexDepartureDay = indexAuszug[1];
-
-                    // departure and arrival know
-                    if ($.inArray(arrivateDayAndMonth, prototypMonthDay) >= 0 && $.inArray(departureDateMonth, prototypMonthDay) >= 0) {
-
-                        var duration = daydiff(arrivateDate, depatureDate);
-                        duration = duration * 102;
-                        var indexArrival = getCell(arrivateDate.getDate().toString(), "#hotelTable");
-
-                        // console.log("index" + indexArrival[1] + "arr" + arrivateDate.getDate().toString() + " ind "  + indexArrival[0]);
                         $('#hotelTable').find(
-                            'tr:eq(' + indexZimmer[0] + ')').find(
-                            'td:eq(' + indexArrival[1] + ')').find('.bookingcontent').html(
-                            name).css({
+                            'tr:eq(' + arrCellIndexRoom[0] + ')').find(
+                            'td:eq(' + arrCellIndexArrival[1] + ')').find('.bookingcontent').html(
+                            clientName).addClass("contentField").css({
                             position: 'relative',
                             backgroundColor: 'red',
-                            width: duration + '%',
+                            width: intStayPeriod + '%',
                             padding: '8px 0 0 0'
                         });
 
-
-                        var cellPosition = getCell(depatureDate.getDate().toString(), "#hotelTable");
-
-                        for (var count = (indexArrival[1]); count < cellPosition[1]; count++) {
-
-                            // console.log("count" + count);
+                        var cellPosition = getCell(dDepartureDate.getDate().toString(), "#hotelTable");
+                        for (var count = (arrCellIndexArrival[1]); count < cellPosition[1]; count++) {
                             $('#hotelTable').find(
-                                'tr:eq(' + indexZimmer[0] + ')').find(
+                                'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                                 'td:eq(' + count + ')')
                                 .addClass("besetzt").removeClass(
                                 "selectableTD").attr(
                                 "disabled", true);
                         }
-
                     }
 
-                    // arrival not know
-                    if ($.inArray(arrivateDayAndMonth, prototypMonthDay) >= 0 && $.inArray(departureDateMonth, prototypMonthDay) < 0) {
+                    // strArrival is not in the presentation area
+                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) >= 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) < 0) {
+
                         var lastDayInTablle = allDayToSchowInKalendarIndate[allDayToSchowInKalendarIndate.length - 1];
-                        var duration = daydiff(arrivateDate, lastDayInTablle);
+                        var duration = daydiff(dArrivalDate, lastDayInTablle);
                         duration = (duration + 1) * 102;
 
-                        var indexArrival = getCell(arrivateDate.getDate().toString(), "#hotelTable");
-
-                        // console.log("index" + indexArrival[1] + "arr" + arrivateDate.getDate().toString() + " ind "  + indexArrival[0]);
+                        var indexArrival = getCell(dArrivalDate.getDate().toString(), "#hotelTable");
                         $('#hotelTable').find(
-                            'tr:eq(' + indexZimmer[0] + ')').find(
+                            'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                             'td:eq(' + indexArrival[1] + ')').find('.bookingcontent').html(
-                            name).css({
+                            clientName).css({
                             position: 'relative',
                             backgroundColor: 'red',
                             width: duration + '%',
                             padding: '8px 0 0 0'
                         });
 
-                        var arrCellPosition = getCell(arrivateDate.getDate().toString(), "#hotelTable");
+                        var arrCellPosition = getCell(dArrivalDate.getDate().toString(), "#hotelTable");
                         var lastCellPosition = getCell(lastDayInTablle.getDate().toString(), "#hotelTable");
-
-
                         for (var count = arrCellPosition[1]; count < lastCellPosition[1]; count++) {
 
                             $('#hotelTable').find(
-                                'tr:eq(' + indexZimmer[0] + ')').find(
+                                'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                                 'td:eq(' + count + ')')
                                 .addClass("besetzt").removeClass(
                                 "selectableTD").attr(
                                 "disabled", true);
                         }
-
                     }
 
-                    // departure not know
-                    if ($.inArray(arrivateDayAndMonth, prototypMonthDay) < 0 && $.inArray(departureDateMonth, prototypMonthDay) >= 0) {
+                    // strDeparture is not in the presentation area
+                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) < 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) >= 0) {
                         var firstDayInTabelle = allDayToSchowInKalendarIndate[0];
-                        var duration = daydiff(firstDayInTabelle, depatureDate);
+                        var duration = daydiff(firstDayInTabelle, dDepartureDate);
                         duration = duration * 102;
-
                         var indexdeparture = getCell(firstDayInTabelle.getDate().toString(), "#hotelTable");
-
                         $('#hotelTable').find(
-                            'tr:eq(' + indexZimmer[0] + ')').find(
+                            'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                             'td:eq(' + indexdeparture[1] + ')').find('.bookingcontent').html(
-                            name).css({
+                            clientName).css({
                             position: 'relative',
                             backgroundColor: 'red',
                             width: duration + '%',
@@ -142,33 +116,30 @@ function loadData() {
                         });
 
                         var firstCellPosition = getCell(firstDayInTabelle.getDate().toString(), "#hotelTable");
-                        var deparCellPosition = getCell(depatureDate.getDate().toString(), "#hotelTable");
-
+                        var deparCellPosition = getCell(dDepartureDate.getDate().toString(), "#hotelTable");
                         for (var count = firstCellPosition[1]; count < deparCellPosition[1]; count++) {
-
                             $('#hotelTable').find(
-                                'tr:eq(' + indexZimmer[0] + ')').find(
+                                'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                                 'td:eq(' + count + ')')
                                 .addClass("besetzt").removeClass(
                                 "selectableTD").attr(
                                 "disabled", true);
                         }
-
                     }
 
-                    // longer that 28 days
                     //TODO: check why is not work
-                    if ($.inArray(arrivateDayAndMonth, prototypMonthDay) < 0 && $.inArray(departureDateMonth, prototypMonthDay) < 0) {
+                    // reservation period is longer that 28 days/ start and enddate are not in the presentation area
+                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) < 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) < 0) {
                         console.log("found");
                         var firstDayInTabelle = allDayToSchowInKalendarIndate[0];
                         var duration = 28 * 102;
                         var firstindex = getCell(firstDayInTabelle.getDate().toString(), "#hotelTable");
 
-                        // console.log("index" + indexArrival[1] + "arr" + arrivateDate.getDate().toString() + " ind "  + indexArrival[0]);
+                        // console.log("index" + arrCellIndexArrival[1] + "arr" + dArrivalDate.getDate().toString() + " ind "  + arrCellIndexArrival[0]);
                         $('#hotelTable').find(
-                            'tr:eq(' + indexZimmer[0] + ')').find(
+                            'tr:eq(' + arrCellIndexRoom[0] + ')').find(
                             'td:eq(' + firstindex[1] + ')').find('.bookingcontent').html(
-                            name).css({
+                            clientName).css({
                             position: 'relative',
                             backgroundColor: 'red',
                             width: duration + '%',
@@ -176,13 +147,16 @@ function loadData() {
                         });
                     }
                 }
-                console.log("------------------------")
-
             });
 
 }
 
-function stringToDatet(stringDate) {
+/**
+ * this is a utility function to convert  a date into a string that the server know.
+ * @param stringDate
+ * @returns {string}
+ */
+function convertStringToDate(stringDate) {
 
     var strSplit = stringDate.split(".");
     var day = strSplit[0];
@@ -190,13 +164,4 @@ function stringToDatet(stringDate) {
     var year = strSplit[2];
     var strdate = year + "-" + month + "-" + day;
     return strdate;
-}
-
-function getAllDayShows() {
-    var listOfDayShows = new Array();
-    for (var count = 0; count < allDayToSchowInKalendar.length; count++) {
-        var day = splitString(allDayToSchowInKalendar[count], 0);
-        listOfDayShows.push(day);
-    }
-    return listOfDayShows;
 }
