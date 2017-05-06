@@ -7,8 +7,8 @@
 
 function loadData() {
 
-    var startdate = convertStringToDate(allDayToSchowInKalendar[0]);
-    var endDate = convertStringToDate(allDayToSchowInKalendar[27]);
+    var startdate = convertStringToDate(arrAllDayToSchowInKalendarStringFormat[0]);
+    var endDate = convertStringToDate(arrAllDayToSchowInKalendarStringFormat[27]);
 
     $
         .ajax({
@@ -41,7 +41,7 @@ function loadData() {
                     var arrCellIndexRoom = getCell(objectDescription, "#roomtable");
 
                     // strDeparture and strArrival stay in the presentation-area
-                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) >= 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) >= 0) {
+                    if ($.inArray(strArrivalDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) >= 0 && $.inArray(strDepartureDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) >= 0) {
 
                         var intStayPeriod = daydiff(dArrivalDate, dDepartureDate);
                         intStayPeriod = intStayPeriod * 102;
@@ -69,9 +69,9 @@ function loadData() {
                     }
 
                     // strArrival is not in the presentation area
-                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) >= 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) < 0) {
+                    if ($.inArray(strArrivalDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) >= 0 && $.inArray(strDepartureDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) < 0) {
 
-                        var lastDayInTablle = allDayToSchowInKalendarIndate[allDayToSchowInKalendarIndate.length - 1];
+                        var lastDayInTablle = arrAllDayToSchowInKalendarDateFormat[arrAllDayToSchowInKalendarDateFormat.length - 1];
                         var duration = daydiff(dArrivalDate, lastDayInTablle);
                         duration = (duration + 1) * 102;
 
@@ -100,8 +100,8 @@ function loadData() {
                     }
 
                     // strDeparture is not in the presentation area
-                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) < 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) >= 0) {
-                        var firstDayInTabelle = allDayToSchowInKalendarIndate[0];
+                    if ($.inArray(strArrivalDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) < 0 && $.inArray(strDepartureDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) >= 0) {
+                        var firstDayInTabelle = arrAllDayToSchowInKalendarDateFormat[0];
                         var duration = daydiff(firstDayInTabelle, dDepartureDate);
                         duration = duration * 102;
                         var indexdeparture = getCell(firstDayInTabelle.getDate().toString(), "#hotelTable");
@@ -129,9 +129,9 @@ function loadData() {
 
                     //TODO: check why is not work
                     // reservation period is longer that 28 days/ start and enddate are not in the presentation area
-                    if ($.inArray(strArrivalDayAndMonth, prototypMonthDay) < 0 && $.inArray(strDepartureDayAndMonth, prototypMonthDay) < 0) {
+                    if ($.inArray(strArrivalDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) < 0 && $.inArray(strDepartureDayAndMonth, arrAlldayToShowInKalendarInFormatDayAndMonth) < 0) {
                         console.log("found");
-                        var firstDayInTabelle = allDayToSchowInKalendarIndate[0];
+                        var firstDayInTabelle = arrAllDayToSchowInKalendarDateFormat[0];
                         var duration = 28 * 102;
                         var firstindex = getCell(firstDayInTabelle.getDate().toString(), "#hotelTable");
 

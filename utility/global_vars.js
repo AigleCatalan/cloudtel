@@ -1,4 +1,4 @@
 
-var allDayToSchowInKalendar;
-var allDayToSchowInKalendarIndate;
-var prototypMonthDay;
+var arrAllDayToSchowInKalendarStringFormat;
+var arrAllDayToSchowInKalendarDateFormat;
+var arrAlldayToShowInKalendarInFormatDayAndMonth;

@@ -37,20 +37,18 @@ function generateTable(rows, cols, date) {
     var table = ''; // The table
     var tableMonth = ''; // to show the Month and the year
     var setdate = date;
-    // var dateArray = dateFactory.getDateStrings(setdate);
-    var monthRows = '';
+
 
     var DatePeriodeToShow = searchNextForteenDay(setdate);
     var startDate = DatePeriodeToShow[0];
     var endDate = DatePeriodeToShow[1];
     var listOfDate = getDateToShow(startDate, endDate);
-    allDayToSchowInKalendarIndate = listOfDate;
-    prototypMonthDay = generateDayAndMonth(listOfDate);
-
+    arrAllDayToSchowInKalendarDateFormat = listOfDate;
+    arrAlldayToShowInKalendarInFormatDayAndMonth = generateDayAndMonth(listOfDate);
 
 
     var listOfdateString = generateListOfDate(searchNextForteenDay(setdate));
-    allDayToSchowInKalendar = listOfdateString;
+    arrAllDayToSchowInKalendarStringFormat = listOfdateString;
 
     var listOfmont = searchMonthAndYear(listOfdateString)[0];
     var positionOfMonthChange = searchMonthAndYear(listOfdateString)[1];
@@ -117,7 +115,7 @@ function searchMonthAndYear(dateArray) {
 
     for (var int = 0; int < dateArray.length; int++) {
 
-        var currentElement = splitString(dateArray[int], 0);
+        // var currentElement = splitString(dateArray[int], 0);
         var currentMonth = splitString(dateArray[int], 1)
             + splitString(dateArray[int], 2);
 
@@ -137,7 +135,7 @@ function searchMonthAndYear(dateArray) {
 
 }
 /**
- *
+ *this could be used to show a day on the dashboard
  * @param day
  * @returns {*}
  */
@@ -170,11 +168,14 @@ function dayFormat(day) {
     }
 }
 
+/**
+ * this is a help function to create a array with only the day and the month of a reservation
+ * @param listOfDate
+ * @returns {Array}
+ */
 function generateDayAndMonth(listOfDate) {
-
     var listAndMonth = new Array();
     for (var count = 0; count < listOfDate.length; count++) {
-
         var currentDate = listOfDate[count].getDate() + "-" + listOfDate[count].getMonth();
         listAndMonth.push(currentDate);
     }
