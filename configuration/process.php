@@ -5,12 +5,12 @@
 <html>
 <head>
 	<title>Login page</title>
-	<link rel="stylesheet" href="style1.css"/>
+	<link rel="stylesheet" type ="text/css" href="/cloudtel/stylesheet/style1.css"/>
 
 <?php
 	if ($verhalten == 1) {
 ?>
-		<meta http-equiv="refresh" content="0; URL=secure.php" />
+		<meta http-equiv="refresh" content="0; URL= /cloudtel/dashboard.php" />
 	<?php
 	}
 	?>
