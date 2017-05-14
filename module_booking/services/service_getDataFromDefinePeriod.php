@@ -17,7 +17,8 @@ FROM reservationposition
   WHERE reservationposition.arrival BETWEEN '$departure' AND '$arrival'
 OR
 reservationposition.departur BETWEEN '$departure' AND '$arrival'
-";
+OR
+DATEDIFF(reservationposition.departur, reservationposition.arrival) > 28";
 
 $mysqlQuuery = mysql_query($query);
 
