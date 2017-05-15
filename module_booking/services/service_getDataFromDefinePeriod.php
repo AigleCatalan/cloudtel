@@ -5,7 +5,21 @@ header ( 'content-type: application/json' );
  $departure = $_POST['startDate'];
  $arivate = $_POST['enddate'];
 
-$query = "SELECT * FROM reservationposition WHERE arrival <= '$departure' AND departur >= '$arivate'";
+$query = "SELECT
+  client.name,
+  reservationposition.arrival,
+  reservationposition.departur,
+  object.objectId,
+  object.description
+FROM reservationposition
+  INNER JOIN object ON reservationposition.object_objectId = object.objectId
+  INNER JOIN reservation ON reservation.reservationId = reservationposition.reservation_reservationId
+  INNER JOIN client ON client.clientId = reservation.client_clientId
+  WHERE reservationposition.arrival BETWEEN '$departure' AND '$arrival'
+OR
+reservationposition.departur BETWEEN '$departure' AND '$arrival'
+";
+
 $mysqlQuuery = mysql_query ( $query );
 
 $result = array ();
@@ -13,12 +27,12 @@ $result = array ();
 // return a json datei with all the Reservations
 while ( $row = mysql_fetch_assoc ( $mysqlQuuery ) ) {
 
-	$rowResult = array ();
-	$rowResult ['reservNr'] = $row ['reserNr'];
-	$rowResult ['objNr'] = $row ['onjnr'];
-	$rowResult ['kName'] = $row ['name'];
-	$rowResult ['ankunftDate'] = $row ['einkunft'];
-	$rowResult ['auszugDate'] = $row ['auszug'];
+	$rowResult = array();
+    $rowResult ['objectId'] = $row ['objectId'];
+    $rowResult ['objectDescription'] = $row ['description'];
+    $rowResult ['kName'] = $row ['name'];
+    $rowResult ['arrivalDate'] = $row ['arrival'];
+    $rowResult ['departureDate'] = $row ['departur'];
 	
 	$result [] = $rowResult;
 }

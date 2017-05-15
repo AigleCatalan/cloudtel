@@ -8,8 +8,8 @@ $RoomNum_rows = mysql_num_rows ( $roomData );
 echo $roomData;
 
 while ( $k_row = mysql_fetch_assoc ( $roomData ) ) {
-	array_push($arrayRoomData, $k_row ['objectId']);
-	$roomTable .= '<tr><td>'.$k_row ['objectId'].'</td></tr>';
+	array_push($arrayRoomData, $k_row ['description']);
+	$roomTable .= '<tr><td>'.$k_row ['description'].'</td></tr>';
 }
 
 ?>
