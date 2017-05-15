@@ -5,7 +5,7 @@ header ( 'content-type: application/json' );
  $departure = $_POST['startDate'];
  $arivate = $_POST['enddate'];
 
-$query = "SELECT * FROM reservierung WHERE einkunft <= '$departure' AND auszug >= '$arivate'";
+$query = "SELECT * FROM reservationposition WHERE arrival <= '$departure' AND departur >= '$arivate'";
 $mysqlQuuery = mysql_query ( $query );
 
 $result = array ();
