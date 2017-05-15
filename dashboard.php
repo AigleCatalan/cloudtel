@@ -18,7 +18,7 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 	<script type="text/javascript" src="utility/global_vars.js"></script>
 	<script type="text/javascript" src="utility/help.js"></script>
 	<script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
-	<script type="text/javascript" src="module_booking/utility/ed_help.js"></script>
+	<script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
 
 	<!-- configuration script -->
 	<script type="text/javascript"
@@ -52,39 +52,23 @@ $(function() {
 			<form id="addPerson" name="addPerson" method="post" action="">
 
 				<div id="personAttribute">
-
-					<div id="child1">
-						<br> <input type="text" name="room" class="childOfDiv"
-							onkeyup="checkData(this);" placeholder="Room">
-							
-						<br> <input type="text" name="startdate"
-							class="childOfDiv" placeholder="Startdatum format tt.mm.jjjj"
-							onkeyup="checkData(this);">
-						<p id="error"></p>
-
-						<input type="text" name="enddate"
-							class="childOfDiv" placeholder="Enddatum format tt.mm.jjjj"
-							onkeyup="checkData(this);">
-						<p id="errorMsg"></p>
-
-						<input type="text" name="firstname" class="childOfDiv"
-							onkeyup="checkData(this);" placeholder="Vorname*"><br> <input
-							type="text" name="lastname" class="childOfDiv"
-							onkeyup="checkData(this);" placeholder="Nachname*"><br>
-					</div>
+                  
+                   <!-- This content will be automatically set -->
+					
 				</div>
 			</form>
 
 			<button type="submit" onclick="request(readData);">Submit</button>
-			<button id="myBtnWeiter" onclick="cloneDiv();" disabled>add More...</button>
+			<button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
 		</div><!-- End of sidenav-->
 
         <!--- click on this element to show sidenav -->
 		<div title="click to add reservation" onclick="openNav();"
-			id="overlay">
-			<span>&lsaquo;</span>
-		</div>
+			id="overlay">&lsaquo;</div>
+			
+			<!--<span>&lsaquo;</span>-->
+		
 		
         <!-- beginn of Dashboard-->
 		<div id="divKalendar">
@@ -127,8 +111,6 @@ $(function() {
 				<p style="clear: both;"></p>
 			</div>
 			
-			<!-- this is a help field. could be used to save particular information -->
-			<input type="text" id="inhalt" name="fname"><br>
 		</div>
 		<!-- End of Dashboard-->
 		<!-- end of content-->
@@ -184,7 +166,7 @@ $(function() {
 *
 ******************************************************************************/
 
-$('.childOfDiv').each(function (){
+/*$('.childOfDiv').each(function (){
 	   
 	   if ($(this).attr('name') === "startdate" || $(this).attr('name')==="enddate"){
 	
@@ -202,7 +184,7 @@ $('.childOfDiv').each(function (){
 	    }
 
     });
-
+*/
 /***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
 
 
@@ -216,7 +198,7 @@ $('.childOfDiv').each(function (){
 *
 ***************************************************************************/
 
-var nCount = 1;
+/*var nCount = 1;
 
 $( "#myBtnWeiter" ).click(function() {
 
@@ -252,61 +234,86 @@ $( "#myBtnWeiter" ).click(function() {
 
     });
 
- }); 
+ }); */
  
 /***************END OF JQUERY-FUNCTION ************************************/
 
 
 
-/// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event){
-//console.log("inside 2 js "+event.target.nodeName);
-   if (event.target.nodeName === "HTML"){
-	
-        /*
-		   document.getElementById("mySidenav").style.display = "none";
-		   document.getElementById("main").style.marginLeft= "0"; 
-		 */
-		 document.getElementById("mySidenav").style.width = "0";
+ /***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************
+     *
+     * Set datepicker on choosen element
+     *
+     ******************************************************************************/
 
-     document.body.style.backgroundColor = "white";
-		
-		//console.log("inside 3 js ");
-		
-    }
+    window.addEventListener('mouseup', function (event) {
 
-}
+
+        var status = false;
+        var box = document.getElementById('mySidenav');
+        var boxCalendar = document.getElementById('ui-datepicker-div');
+        var nodes = [];
+        var element = event.target; //document.getElementById('mySidenav');
+        nodes.push(element);
+
+        while (element.parentNode) {
+            nodes.unshift(element.parentNode);
+            element = element.parentNode;
+        }
+
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i] == box || nodes[i] == boxCalendar) {
+                status = true;
+            }
+        }
+        if (status == false) {
+            closeNav();
+        }
+    });
+
+
+    /***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
 
 function openNav(){
 
-     /* 
-	   document.getElementById("mySidenav").style.width = "850px";
-	   document.getElementById("main").style.marginLeft = "0px";
-	   document.body.style.overflow-y = "scroll"; Add vertical scrollbar 
-	   document.body.style.overflow-x = "hidden"; /* Hide horizontal scrollbar
-       document.body.style.overflow = "scroll"; 	   
-	 */
-     //document.body.style.overflow ="scroll";
-	 document.getElementById("mySidenav").style.position ="absolute";
+     
+	    childCounter = 1;
+        document.getElementById("mySidenav").style.position = "absolute";
+        document.getElementById("mySidenav").style.width = "500px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
 
-	 document.getElementById("mySidenav").style.width ="500px";
+        var parEl = document.getElementById("personAttribute");
+        var index = parEl.childElementCount;
 
-	  //document.getElementById("mySidenav").style.height ="850px";
-	 //document.getElementById("mySidenav").style.overflow ="scroll";
-
-  document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+        if (index > 0) {
+            for (var i = 1; i <= index; i++) {
+                var elem = document.getElementById("child" + i);
+                elem.parentNode.removeChild(elem);
+            }
+        }
+        CreateDivInSidenav();
 	
 }
 
 function closeNav(){
 
     document.getElementById("mySidenav").style.width = "0";
-
     document.getElementById("main").style.marginLeft= "0";
-
     document.body.style.backgroundColor = "white";
 
 }
+
+ function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttributeValue
+
+        var oElement = document.getElementById(sIdOfElt);
+
+        if (oElement.disabled) {
+            oElement.disabled = true; //sperren
+        } else {
+            oElement.disabled = true; //set value to true "sperren"
+        }
+    } // end of changeDisabledAttributeValue
+
 
 function request(callback){
 

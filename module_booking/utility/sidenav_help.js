@@ -90,6 +90,52 @@
             }
 
   } // end of cloneDiv
+
+
+
+  var childCounter = 1;
+
+        function childContent() {
+            return '<br>\
+            <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+        placeholder="Startdatum" onkeyup="checkData(this);">\
+            <p id="error"></p>\
+            <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+        placeholder="Enddatum" onkeyup="checkData(this);">\
+            <p id="errorMsg"></p>\
+            <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
+            placeholder="Vorname*"><br>\
+            <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
+             placeholder="Lastname*"><br>'
+        } //end of childContent
+
+
+        function CreateDivInSidenav(){
+
+        var childDiv = document.createElement('div');
+        var childId = "child" + childCounter;
+        childDiv.setAttribute("id", childId);
+        childDiv.innerHTML = childContent();
+        document.getElementById("personAttribute").appendChild(childDiv);
+        childCounter++;
+
+        changeDisabledAttributeValue("myBtnWeiter");
+
+        $('.childOfDiv').each(function () {
+
+            if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
+
+                $(this).datepicker({
+                    dateFormat: "dd.mm.yy",
+                    onClose: function () {
+                        var sCheckDate = validate($(this).val());
+                        return sCheckDate;
+                    }
+                });
+
+            }
+        });
+    }
   
   /**
    *
