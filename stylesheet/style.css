@@ -26,7 +26,6 @@ table {
     overflow: hidden;
     text-align: left;
     border-radius: 10px;
-  	z-index:-1;
 }
 
 table td {
