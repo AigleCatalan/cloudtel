@@ -26,7 +26,7 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 
         	var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;       	
 
-            return '<select class="selectRoom" readonly="readonly">'
+            return '<select class="selectRoom" readonly="readonly"> <option value="first">--select room--</option>'
 					   +strRoomDescription+	
 					'</select>\
 					<br>\
