@@ -1,5 +1,5 @@
 <?php
-include 'module_booking/services/service_getAllRoonFromDatabase.php';
+include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 ?>
 
 <html>
