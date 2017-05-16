@@ -1,11 +1,10 @@
 <?php
 include "../../configuration/databaseConnection_configuration.php";
-header ( 'content-type: application/json' );
+header('content-type: application/json');
 
- $departure = $_POST['startDate'];
- $arivate = $_POST['enddate'];
-
-$query = "SELECT
+$departure = $_POST['startDate'];
+$arrival = $_POST['enddate'];
+$stmt = $pdo->prepare("SELECT
   client.name,
   reservationposition.arrival,
   reservationposition.departur,
@@ -15,32 +14,27 @@ FROM reservationposition
   INNER JOIN object ON reservationposition.object_objectId = object.objectId
   INNER JOIN reservation ON reservation.reservationId = reservationposition.reservation_reservationId
   INNER JOIN client ON client.clientId = reservation.client_clientId
-  WHERE reservationposition.arrival BETWEEN '$departure' AND '$arrival'
+  WHERE reservationposition.arrival BETWEEN :departur AND :arrival
 OR
-reservationposition.departur BETWEEN '$departure' AND '$arrival'
-";
+reservationposition.departur BETWEEN :departur AND :arrival
+OR
+DATEDIFF(reservationposition.departur, reservationposition.arrival) > 28");
+$stmt->execute(array(':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
 
-$mysqlQuuery = mysql_query ( $query );
-
-$result = array ();
+$result = array();
 
 // return a json datei with all the Reservations
-while ( $row = mysql_fetch_assoc ( $mysqlQuuery ) ) {
+while ($row = $stmt->fetch()) {
 
-	$rowResult = array();
+    $rowResult = array();
     $rowResult ['objectId'] = $row ['objectId'];
     $rowResult ['objectDescription'] = $row ['description'];
     $rowResult ['kName'] = $row ['name'];
     $rowResult ['arrivalDate'] = $row ['arrival'];
     $rowResult ['departureDate'] = $row ['departur'];
-	
-	$result [] = $rowResult;
+
+    $result [] = $rowResult;
 }
+print_r(json_encode($result));
+$pdo = null;
 
-// create the json-Structur
-print_r ( json_encode ( $result ) );
-
-// close the mysql-connection
-mysql_close ( $connect );
-
-?>
