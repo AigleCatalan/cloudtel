@@ -4,46 +4,46 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
 <html>
 <head>
-	<!-- stylesheet -->
-	<link rel="stylesheet" href="stylesheet/style.css">
-	
-	<!-- externe library -->
-	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script> -->
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
-	<!-- help scripts -->
-	<script type="text/javascript" src="utility/global_vars.js"></script>
-	<script type="text/javascript" src="utility/help.js"></script>
-	<script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
-	<script type="text/javascript">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="stylesheet/style.css">
 
-	   var childCounter = 1;
+    <!-- externe library -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-        function childContent(){
+    <!-- help scripts -->
+    <script type="text/javascript" src="utility/global_vars.js"></script>
+    <script type="text/javascript" src="utility/help.js"></script>
+    <script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
+    <script type="text/javascript">
 
-        	var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
+        var childCounter = 1;
+
+        function childContent() {
+
+            var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
             return '<select class="selectRoom" readonly="readonly"> <option value="first">--select room--</option>'
-					   +strRoomDescription+
-					'</select>\
-					<br>\
-            <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
-        placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
-            <p id="error"></p>\
-            <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
-        placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
-            <p id="errorMsg"></p>\
-            <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
-            placeholder="Vorname*"><br>\
-            <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
-             placeholder="Lastname*"><br>'
+                + strRoomDescription +
+                '</select>\
+                <br>\
+        <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+    placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
+        <p id="error"></p>\
+        <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+    placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
+        <p id="errorMsg"></p>\
+        <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
+        placeholder="Vorname*"><br>\
+        <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
+         placeholder="Lastname*"><br>'
         } //end of childContent
 
-	</script>
-	<script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
+    </script>
+    <script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
 
     <!-- configuration script -->
     <script type="text/javascript"
@@ -76,15 +76,15 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
         <form id="addPerson" name="addPerson" method="post" action="">
 
-				<div id="personAttribute">
+            <div id="personAttribute">
 
-                   <!-- This content will be automatically set -->
+                <!-- This content will be automatically set -->
 
-				</div>
-			</form>
+            </div>
+        </form>
 
-			<button type="submit" onclick="request(readData);">Submit</button>
-			<button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
+        <button type="submit" onclick="request(readData);">Submit</button>
+        <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
     </div><!-- End of sidenav-->
 
@@ -188,88 +188,110 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
         }
 
 
-    /***************BEGINN OF EVENT ON SIDENAV***********************
-     *
-     * Set datepicker on choosen element
-     *
-     ******************************************************************************/
+        /***************BEGINN OF EVENT ON SIDENAV***********************
+         *
+         * Set datepicker on choosen element
+         *
+         ******************************************************************************/
 
-    window.addEventListener('mouseup', function (event) {
+        window.addEventListener('mouseup', function (event) {
 
 
-        var status = false;
-        var box = document.getElementById('mySidenav');
-        var boxCalendar = document.getElementById('ui-datepicker-div');
-        var nodes = [];
-        var element = event.target;
-        nodes.push(element);
+            var status = false;
+            var box = document.getElementById('mySidenav');
+            var boxCalendar = document.getElementById('ui-datepicker-div');
+            var nodes = [];
+            var element = event.target;
+            nodes.push(element);
 
-        while (element.parentNode) {
-            nodes.unshift(element.parentNode);
-            element = element.parentNode;
-        }
-
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i] == box || nodes[i] == boxCalendar) {
-                status = true;
+            while (element.parentNode) {
+                nodes.unshift(element.parentNode);
+                element = element.parentNode;
             }
+
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i] == box || nodes[i] == boxCalendar) {
+                    status = true;
+                }
+            }
+            if (status == false) {
+                closeNav();
+            }
+        });
+
+
+        function request(callback) {
+
+            var xhr = getXMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+
+                    callback(xhr.responseText); //recuperation de donnees sous forme textuel
+
+
+                }
+
+            };
+
+            var oStoredData = getJsonData();
+
+            xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
+
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(oStoredData);
+
+            document.getElementById("mySidenav").style.width = "0";
+
+            document.getElementById("main").style.marginLeft = "0";
+
+            document.body.style.backgroundColor = "white";
+
         }
-        if (status == false) {
-            closeNav();
+
+
+        function openNav() {
+
+            console.log("opennav")
+            childCounter = 1;
+            document.getElementById("mySidenav").style.position = "absolute";
+            document.getElementById("mySidenav").style.width = "500px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+
+
+            var parEl = document.getElementById("personAttribute");
+            var index = parEl.childElementCount;
+
+            if (index > 0) {
+                for (var i = 1; i <= index; i++) {
+                    var elem = document.getElementById("child" + i);
+                    elem.parentNode.removeChild(elem);
+                }
+            }
+            CreateDivInSidenav();
+            console.log("end opennav");
         }
-    });
 
+        function readData(sData) {
 
+            if (sData) {
 
-function request(callback){
+                document.getElementById("console").innerHTML = "...." + sData;
 
-    var xhr = getXMLHttpRequest();
+            } else {
 
-    xhr.onreadystatechange = function(){
+                alert("Y'a eu un problème");
 
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)){
-
-            callback(xhr.responseText); //recuperation de donnees sous forme textuel
-
+            }
 
         }
 
-    };
 
-    var oStoredData = getJsonData();
-  
-    xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
-  
-    xhr.setRequestHeader("Content-Type", "application/json");
+    </script>
 
-    xhr.send(oStoredData);
-
-    document.getElementById("mySidenav").style.width = "0";
-
-    document.getElementById("main").style.marginLeft= "0";
-
-    document.body.style.backgroundColor = "white";
-
-}
-
-function readData(sData){
-
-    if (sData) {
-
-      document.getElementById("console").innerHTML = "...."+sData;
-
-    } else {
-
-        alert("Y'a eu un problème");
-
-    }
-
-}
-
-
-</script>
-
-	</div>
-	<!-- end of main-->
+</div>
+<!-- end of main-->
 </body>
 </html>
