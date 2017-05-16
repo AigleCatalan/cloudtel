@@ -18,6 +18,31 @@ include 'module_booking/services/service_getAllRoonFromDatabase.php';
 	<script type="text/javascript" src="utility/global_vars.js"></script>
 	<script type="text/javascript" src="utility/help.js"></script>
 	<script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
+	<script type="text/javascript">
+
+	   var childCounter = 1;
+
+        function childContent(){
+
+        	var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;       	
+
+            return '<select class="selectRoom" readonly="readonly">'
+					   +strRoomDescription+	
+					'</select>\
+					<br>\
+            <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+        placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
+            <p id="error"></p>\
+            <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+        placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
+            <p id="errorMsg"></p>\
+            <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
+            placeholder="Vorname*"><br>\
+            <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
+             placeholder="Lastname*"><br>'
+        } //end of childContent
+
+	</script>
 	<script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
 
 	<!-- configuration script -->
