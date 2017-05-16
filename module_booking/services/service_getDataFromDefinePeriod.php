@@ -37,4 +37,3 @@ while ($row = $stmt->fetch()) {
 }
 print_r(json_encode($result));
 $pdo = null;
-

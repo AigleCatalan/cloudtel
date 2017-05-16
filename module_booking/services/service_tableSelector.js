@@ -126,8 +126,8 @@ function tableSelector() {
 					function() {
 						if(startCellIndex != null && EndCellIndex != null && startCellIndex <EndCellIndex ){
 							// store all information to data-Object.
-							data.dateFrom = allDayToSchowInKalendar[startCellIndex];
-							data.dateTo = allDayToSchowInKalendar[EndCellIndex];
+							data.dateFrom = arrAllDayToSchowInKalendarStringFormat[startCellIndex];
+							data.dateTo = arrAllDayToSchowInKalendarStringFormat[EndCellIndex];
 							data.roomNr = document.getElementById("roomtable").rows[startRowIndex].cells[0].innerHTML;
 							// set value;
 							setModalValue();

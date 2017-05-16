@@ -24,10 +24,10 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
         function childContent(){
 
-        	var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;       	
+        	var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
             return '<select class="selectRoom" readonly="readonly"> <option value="first">--select room--</option>'
-					   +strRoomDescription+	
+					   +strRoomDescription+
 					'</select>\
 					<br>\
             <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
@@ -45,55 +45,54 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 	</script>
 	<script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
 
-	<!-- configuration script -->
-	<script type="text/javascript"
-	src="configuration/xmlHttpRequest_configurations.js"></script>
-	
-	<!-- scripts -->
-	<script type="text/javascript"
-	src="module_booking/services/service_tableGenerate.js"></script>
-	<script type="text/javascript"
-	src="module_booking/services/service_tableSelector.js"></script>
-	<script type="text/javascript"
-	src="module_booking/services/service_showDataFromDefinePeriod.js"></script>
+    <!-- configuration script -->
+    <script type="text/javascript"
+            src="configuration/xmlHttpRequest_configurations.js"></script>
+
+    <!-- scripts -->
+    <script type="text/javascript"
+            src="module_booking/services/service_tableGenerate.js"></script>
+    <script type="text/javascript"
+            src="module_booking/services/service_tableSelector.js"></script>
+    <script type="text/javascript"
+            src="module_booking/services/service_showDataFromDefinePeriod.js"></script>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-// set jquery-Datepicker 
-$(function() {
-    $( ".datepicker" ).datepicker();
-  } );
-  
-</script>
+        // set jquery-Datepicker
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+
+    </script>
 </head>
 <body>
-	<div id="main">
-		<div id="mySidenav" class="sidenav">
-			<!--- Beginn of sidenav-->
+<div id="main">
+    <div id="mySidenav" class="sidenav">
+        <!--- Beginn of sidenav-->
 
-			<a class="closebtn" onclick="closeNav()">&times;</a>
+        <a class="closebtn" onclick="closeNav()">&times;</a>
 
-			<form id="addPerson" name="addPerson" method="post" action="">
+        <form id="addPerson" name="addPerson" method="post" action="">
 
 				<div id="personAttribute">
-                  
+
                    <!-- This content will be automatically set -->
-					
+
 				</div>
 			</form>
 
 			<button type="submit" onclick="request(readData);">Submit</button>
 			<button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
-		</div><!-- End of sidenav-->
+    </div><!-- End of sidenav-->
 
         <!--- click on this element to show sidenav -->
 		<div title="click to add reservation" onclick="openNav();"
-			id="overlay">&lsaquo;</div>
-			
-			<!--<span>&lsaquo;</span>-->
-		
+			id="overlay">
+			<span>&lsaquo;</span>
+		</div>
 		
         <!-- beginn of Dashboard-->
 		<div id="divKalendar">
@@ -136,53 +135,57 @@ $(function() {
 				<p style="clear: both;"></p>
 			</div>
 			
+			<!-- this is a help field. could be used to save particular information -->
+			<input type="text" id="inhalt" name="fname"><br>
 		</div>
 		<!-- End of Dashboard-->
 		<!-- end of content-->
 
-		<!-- *************************scripte************************************** -->
-<script type="text/javascript">
+    <!-- *************************scripte************************************** -->
+    <script type="text/javascript">
 
-	// TODO: please set the rigth Date before going produtive
-	// the EndDate needed to generate the booking Table 
-	var endDateFromFirstBookingTableGeneration = "28.11.2016";
-	
-	var nbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
-	document.getElementById("tableDiv").innerHTML= generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
+        // TODO: please set the rigth Date before going produtive
+        // the EndDate needed to generate the booking Table
+        var endDateFromFirstBookingTableGeneration = new Date();
+        endDateFromFirstBookingTableGeneration = dateToString(endDateFromFirstBookingTableGeneration);
 
-	// after create the Table all the data for the Period will be loaded.
-	loadData();
-	// set date Row onlyread
-	onlyRead = $(".onlyRead");
-	onlyRead.attr("disabled","disabled");
-	// The table Seletor to get the Possibility to make a select on the table
-	tableSelector();
+        var nbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
+        document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
 
-	 // a click Funktion to get the last forteen (actually periode) days an  update the booking table
-	 function getAPreviousPeriodeClick(){
-		 var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
-		 
-		 	endDateFormat.setDate(endDateFormat.getDate() - 14);
-			endDateFormat = dateToString(endDateFormat);
-			endDateFromFirstBookingTableGeneration = endDateFormat;
-		 	document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
-			// reload all Booking Information and tableSelector
-		 loadData();
-		 tableSelector();
-		 
-	 }
-		// a click Funktion to get the next forteen (actually periode) days an  update the booking table
-	function getANextPeriodeClick(){
+        // after create the Table all the data for the Period will be loaded.
+        loadData();
+        // set date Row onlyread
+        onlyRead = $(".onlyRead");
+        onlyRead.attr("disabled", "disabled");
+        // The table Seletor to get the Possibility to make a select on the table
+        tableSelector();
 
-		 var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
-		 endDateFormat.setDate(endDateFormat.getDate() + 14);
-		 endDateFormat = dateToString(endDateFormat);
-		 endDateFromFirstBookingTableGeneration = endDateFormat;
-		 document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28,endDateFromFirstBookingTableGeneration);
-			// reload all Booking Information and tableSelector
-		 loadData();
-		 tableSelector();
-	 }
+        // a click Funktion to get the last forteen (actually periode) days an  update the booking table
+        function getAPreviousPeriodeClick() {
+            var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
+
+            endDateFormat.setDate(endDateFormat.getDate() - 14);
+            endDateFormat = dateToString(endDateFormat);
+            endDateFromFirstBookingTableGeneration = endDateFormat;
+            document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
+            // reload all Booking Information and tableSelector
+            loadData();
+            tableSelector();
+
+        }
+        // a click Funktion to get the next forteen (actually periode) days an  update the booking table
+        function getANextPeriodeClick() {
+
+            var endDateFormat = stringToDate(endDateFromFirstBookingTableGeneration);
+            endDateFormat.setDate(endDateFormat.getDate() + 14);
+            endDateFormat = dateToString(endDateFormat);
+            endDateFromFirstBookingTableGeneration = endDateFormat;
+            document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
+
+            // reload all Booking Information and tableSelector
+            loadData();
+            tableSelector();
+        }
 
 
     /***************BEGINN OF EVENT ON SIDENAV***********************
@@ -198,7 +201,7 @@ $(function() {
         var box = document.getElementById('mySidenav');
         var boxCalendar = document.getElementById('ui-datepicker-div');
         var nodes = [];
-        var element = event.target; 
+        var element = event.target;
         nodes.push(element);
 
         while (element.parentNode) {
@@ -238,7 +241,7 @@ function request(callback){
     xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
   
     xhr.setRequestHeader("Content-Type", "application/json");
-  
+
     xhr.send(oStoredData);
 
     document.getElementById("mySidenav").style.width = "0";

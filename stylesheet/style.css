@@ -1,55 +1,55 @@
 .besetzt {
-	background-color: gray;
-	border-left-color: gray;
-	border-right-color: gray;
+    /*background-color: gray;*/
+    /*border-left-color: gray;*/
+    /*border-right-color: gray;*/
 }
 
 .selectableTD {
-	cursor: cell;
+    cursor: cell;
 }
 
 .firstTd {
-	text-align: center;
+    text-align: center;
 }
 
 table {
-	border-collapse: collapse;
-	text-align: center;
-	width: 100%;
-	table-layout: fixed;
-	
-	
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    table-layout: fixed;
+
 }
 
-.bookingContent{
-	width: 200%; 
-	height: 100%; 
-	overflow:hidden;
-  	text-align: center;
+.bookingContent {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: left;
+    border-radius: 10px;
   	z-index:-1;
 }
 
 table td {
-	border: 1px solid #999;
-	height: 40px;
-	margin: 10px; 
-	white-space: nowrap;
-	
+    border: 1px solid #999;
+    height: 40px;
+    margin: 10px;
+    white-space: nowrap;
+
 }
 
 #hotelTable td {
-	border: 1px solid #999;
-	
+    border: 0.1px solid #999;
+
 }
 
 #roomDiv {
-	position: relative;
-	width: 10%;
+    position: relative;
+    width: 10%;
 }
 
 #tableDiv {
-	position: relative;
-	width: 90%;
+    position: relative;
+    width: 90%;
 }
 
 table.fixed {
@@ -175,7 +175,7 @@ td.selected {
  display: inline;
  margin-left:9.5%;
  margin-bottom:5%;
-} 
+}
 #overlay {
 	font-size: 50px;
 	top: 40%;
@@ -189,6 +189,5 @@ td.selected {
 	position: fixed;
 	z-index: 1;
 }
-	
-	
+
 /*----- Ende of Ed_style --------- */
