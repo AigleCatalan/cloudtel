@@ -97,11 +97,18 @@
 
         function childContent() {
             return '<br>\
+					<select class="selectRoom" readonly="readonly">\
+								  <option value="volvo">Volvo</option>\
+								  <option value="saab">Saab</option>\
+								  <option value="opel">Opel</option>\
+								  <option value="audi">Audi</option>\
+					</select>\
+                    <br>\
             <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
-        placeholder="Startdatum" onkeyup="checkData(this);">\
+        placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
             <p id="error"></p>\
             <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
-        placeholder="Enddatum" onkeyup="checkData(this);">\
+        placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
             <p id="errorMsg"></p>\
             <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
             placeholder="Vorname*"><br>\
