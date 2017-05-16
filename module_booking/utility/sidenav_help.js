@@ -92,6 +92,48 @@
   } // end of cloneDiv
 
 
+
+function openNav(){
+
+     
+	    childCounter = 1;
+        document.getElementById("mySidenav").style.position = "absolute";
+        document.getElementById("mySidenav").style.width = "500px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+
+        var parEl = document.getElementById("personAttribute");
+        var index = parEl.childElementCount;
+
+        if (index > 0) {
+            for (var i = 1; i <= index; i++) {
+                var elem = document.getElementById("child" + i);
+                elem.parentNode.removeChild(elem);
+            }
+        }
+        CreateDivInSidenav();
+	
+}
+
+function closeNav(){
+
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    document.body.style.backgroundColor = "white";
+
+}
+
+ function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttributeValue
+
+        var oElement = document.getElementById(sIdOfElt);
+
+        if (oElement.disabled) {
+            oElement.disabled = true; //sperren
+        } else {
+            oElement.disabled = true; //set value to true "sperren"
+        }
+    } // end of changeDisabledAttributeValue
+
+
         function CreateDivInSidenav(){
 
         var childDiv = document.createElement('div');

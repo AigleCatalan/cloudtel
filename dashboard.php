@@ -185,87 +185,7 @@ $(function() {
 	 }
 
 
-/***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************
-* 
-* Set datepicker on choosen element 
-*
-******************************************************************************/
-
-/*$('.childOfDiv').each(function (){
-	   
-	   if ($(this).attr('name') === "startdate" || $(this).attr('name')==="enddate"){
-	
-	     $(this).datepicker({ dateFormat: "dd.mm.yy",
-                                 onClose: function(){
-
-                                              var sCheckDate = validate($(this).val());
-
-                                              return sCheckDate;
-
-                                              }
-
-                            });
-
-	    }
-
-    });
-*/
-/***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
-
-
-/***************BEGINN OF JQUERY-FUNCTION ************************************
-* 
-* This function will help to deal with datepicker issue after the clone ***
-* We increment a variable nCount if the 'Add' button is clicked
-* We Know that after the click the form is cloned so we select the new div
-* We select the two first input because they must have an input and we remove 
-* some attributes (e.g. hasDatepicker,id) and bind the datepicker again
-*
-***************************************************************************/
-
-/*var nCount = 1;
-
-$( "#myBtnWeiter" ).click(function() {
-
-  nCount = nCount+1;
-  
-  var sIdOfClonedElt = "#"+"child"+nCount+" "+":input";
-  
-    //console.log($(sIdOfClonedElt).length);
-	
-	$(sIdOfClonedElt).each(function (index, value){
-	
-       //console.log($(this).attr('name'));
-	   
-	   if ($(this).attr('name') === "startdate" || $(this).attr('name')==="enddate"){
-	
-	     $(this).removeClass('hasDatepicker')
-		       
-            .removeAttr("id")
-                
-                .datepicker({ dateFormat: "dd.mm.yy",
-
-                                 onClose: function(){
-
-                                                var sCheckDate = validate($(this).val());
-
-                                                 return sCheckDate;
-                                                
-                                                }
-
-                            });
-
-	    }
-
-    });
-
- }); */
- 
-/***************END OF JQUERY-FUNCTION ************************************/
-
-
-
- /***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************
+    /***************BEGINN OF EVENT ON SIDENAV***********************
      *
      * Set datepicker on choosen element
      *
@@ -278,7 +198,7 @@ $( "#myBtnWeiter" ).click(function() {
         var box = document.getElementById('mySidenav');
         var boxCalendar = document.getElementById('ui-datepicker-div');
         var nodes = [];
-        var element = event.target; //document.getElementById('mySidenav');
+        var element = event.target; 
         nodes.push(element);
 
         while (element.parentNode) {
@@ -296,48 +216,6 @@ $( "#myBtnWeiter" ).click(function() {
         }
     });
 
-
-    /***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
-
-function openNav(){
-
-     
-	    childCounter = 1;
-        document.getElementById("mySidenav").style.position = "absolute";
-        document.getElementById("mySidenav").style.width = "500px";
-        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
-
-        var parEl = document.getElementById("personAttribute");
-        var index = parEl.childElementCount;
-
-        if (index > 0) {
-            for (var i = 1; i <= index; i++) {
-                var elem = document.getElementById("child" + i);
-                elem.parentNode.removeChild(elem);
-            }
-        }
-        CreateDivInSidenav();
-	
-}
-
-function closeNav(){
-
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.body.style.backgroundColor = "white";
-
-}
-
- function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttributeValue
-
-        var oElement = document.getElementById(sIdOfElt);
-
-        if (oElement.disabled) {
-            oElement.disabled = true; //sperren
-        } else {
-            oElement.disabled = true; //set value to true "sperren"
-        }
-    } // end of changeDisabledAttributeValue
 
 
 function request(callback){
@@ -360,11 +238,10 @@ function request(callback){
     xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
   
     xhr.setRequestHeader("Content-Type", "application/json");
-
   
     xhr.send(oStoredData);
 
-     document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("mySidenav").style.width = "0";
 
     document.getElementById("main").style.marginLeft= "0";
 
@@ -375,8 +252,6 @@ function request(callback){
 function readData(sData){
 
     if (sData) {
-
-      //  alert("C'est bon"+sData);
 
       document.getElementById("console").innerHTML = "...."+sData;
 
