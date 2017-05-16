@@ -18,7 +18,6 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 	<script type="text/javascript" src="utility/global_vars.js"></script>
 	<script type="text/javascript" src="utility/help.js"></script>
 	<script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
-	<script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
 	<script type="text/javascript">
 
 	   var childCounter = 1;

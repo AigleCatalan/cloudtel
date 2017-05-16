@@ -144,10 +144,10 @@ function tableSelector() {
 	
 	function setModalValue()
 	{
-		var modalNav = document.getElementById("child1").children
-		modalNav.room.value = data.roomNr;
-		modalNav.startdate.value = data.dateFrom;
-		modalNav.enddate.value = data.dateTo;	
+		// var modalNav = document.getElementById("child1").children
+		// modalNav.room.value = data.roomNr;
+		// modalNav.startdate.value = data.dateFrom;
+		// modalNav.enddate.value = data.dateTo;
 	}
 
 }
