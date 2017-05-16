@@ -89,58 +89,58 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
     </div><!-- End of sidenav-->
 
-        <!--- click on this element to show sidenav -->
-		<div title="click to add reservation" onclick="openNav();"
-			id="overlay">
-			<span>&lsaquo;</span>
-		</div>
-		
-        <!-- beginn of Dashboard-->
-		<div id="divKalendar">
-			<div id="kalendarNavDiv">
-				<button id="leftKalendar" onclick="getAPreviousPeriodeClick()">
-					<img alt="left" src="images/navLink.png">
-				</button>
-				<button id="RightKalendar" onclick="getANextPeriodeClick()">
-					<img alt="rigth" src="images/navRecht.png">
-				</button>
-				<p style="clear: both;"></p>
-			</div>
-			
-			<div>
-				<div class="floatTable" id="roomDiv">
-				
-					<!-- this is a empty table on the top of the Object-table in order to get a good layout -->
-					<table>
-						<tr>
-							<td></td>
-						</tr>
-					</table>
-					
-					<!-- this is the Table with all room Information -->
-					<table id="roomtable">
-						<tr>
-							<td>Objekte</td>
-						</tr>				
-						<?php echo $roomTable?>						
-					</table>
-					<!-- this helps to save a number of all rooms, this is used to generate the booking table -->
-					<input type="hidden" class=" notVisible" id="roomRowNbr"
-						value="<?php echo $RoomNum_rows?>">
-				</div>
-				
-				<!-- this is the table with all booking infomation -->
-				<div class="floatTable" id="tableDiv">
-				
-				</div>
-				<p style="clear: both;"></p>
-			</div>
-			
-			<!-- this is a help field. could be used to save particular information -->
-			<input type="text" id="inhalt" name="fname"><br>
-		</div>
-		<!-- End of Dashboard-->
-		<!-- end of content-->
+    <!--- click on this element to show sidenav -->
+    <div title="click to add reservation" onclick="openNav();"
+         id="overlay">
+        <span>&lsaquo;</span>
+    </div>
+
+    <!-- beginn of Dashboard-->
+    <div id="divKalendar">
+        <div id="kalendarNavDiv">
+            <button id="leftKalendar" onclick="getAPreviousPeriodeClick()">
+                <img alt="left" src="images/navLink.png">
+            </button>
+            <button id="RightKalendar" onclick="getANextPeriodeClick()">
+                <img alt="rigth" src="images/navRecht.png">
+            </button>
+            <p style="clear: both;"></p>
+        </div>
+
+        <div>
+            <div class="floatTable" id="roomDiv">
+
+                <!-- this is a empty table on the top of the Object-table in order to get a good layout -->
+                <table>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+
+                <!-- this is the Table with all room Information -->
+                <table id="roomtable">
+                    <tr>
+                        <td>Objekte</td>
+                    </tr>
+                    <?php echo $roomTable ?>
+                </table>
+                <!-- this helps to save a number of all rooms, this is used to generate the booking table -->
+                <input type="hidden" class=" notVisible" id="roomRowNbr"
+                       value="<?php echo $RoomNum_rows ?>">
+            </div>
+
+            <!-- this is the table with all booking infomation -->
+            <div class="floatTable" id="tableDiv">
+
+            </div>
+            <p style="clear: both;"></p>
+        </div>
+
+        <!-- this is a help field. could be used to save particular information -->
+        <input type="text" id="inhalt" name="fname"><br>
+    </div>
+    <!-- End of Dashboard-->
+    <!-- end of content-->
 
     <!-- *************************scripte************************************** -->
     <script type="text/javascript">
