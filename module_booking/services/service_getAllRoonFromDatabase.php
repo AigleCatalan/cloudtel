@@ -13,7 +13,7 @@ while ($row = $stmt->fetch()) {
     array_push($arrayRoomData, $row ['description']);
 
         
-     $strRoomDescription .= '<option>'.$row['description'].'</option>';
+     $strRoomDescription .= '<option value='.$row['description'].'>'.$row['description'].'</option>';
 
     $roomTable .= '<tr><td>' . $row ['description'] . '</td></tr>';
 }
