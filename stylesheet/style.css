@@ -153,36 +153,41 @@ td.selected {
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 18px;
-    }
-
-    .sidenav a {
-        font-size: 18px;
-    }
+	.sidenav {
+		padding-top: 18px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
 }
 
-#addPerson input {
-    display: block;
-    margin-left: 10%;
+#addPerson input, select {
+	display: block;
+	margin-left: 10%;
 }
 
-/* button{
- display: inline;
- margin-left:9.5%;
- margin-bottom:5%;
-} */
+.selectRoom{
+
+
+}
+
+ /*button{*/
+ /*display: inline;*/
+ /*margin-left:9.5%;*/
+ /*margin-bottom:5%;*/
+/*} */
 #overlay {
-    font-size: 50px;
-    top: 40%;
-    width: 75px;
-    color: white;
-    cursor: pointer;
-    position: fixed;
-    margin: 0 0 0% 97.5%;
-    background-color: gray;
-    padding: 2% 0% 2% 0%;
-    position: fixed;
+	font-size: 50px;
+	top: 40%;
+	width: 75px;
+	color: white;
+	cursor: pointer;
+	position: fixed;
+	margin: 0 0 0% 97.5%;
+	background-color: gray;
+	padding: 2% 0% 2% 0%;
+	position: fixed;
+	/*z-index: 1;*/
 }
 
 /*----- Ende of Ed_style --------- */

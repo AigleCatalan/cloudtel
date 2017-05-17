@@ -110,8 +110,10 @@ function tableSelector() {
 		}
 	 });
 	
-	function resetSelection(){				
-			EndCellIndex = startCell =startRowIndex = EndRowIndex = startCellIndex = null;
+	function resetSelection(){
+        console.log("reset up");
+
+        EndCellIndex = startCell =startRowIndex = EndRowIndex = startCellIndex = null;
 		    isMouseDown = false;
 	}
 	
@@ -120,10 +122,10 @@ function tableSelector() {
 		table.find(".selectableTD").css( 'cursor', 'not-allowed');
 	}
 	
-	table
-			.find(".selectableTD")
+	table.find(".selectableTD")
 			.mouseup(
 					function() {
+
 						if(startCellIndex != null && EndCellIndex != null && startCellIndex <EndCellIndex ){
 							// store all information to data-Object.
 							data.dateFrom = arrAllDayToSchowInKalendarStringFormat[startCellIndex];
@@ -132,6 +134,9 @@ function tableSelector() {
 							// set value;
 							setModalValue();
 							// open Modal.
+                            document.body.style.backgroundColor= "gray";
+
+                            console.log(document.body);
 							 openNav();
 							 resetSelection();
 						}else
@@ -144,10 +149,10 @@ function tableSelector() {
 	
 	function setModalValue()
 	{
-		var modalNav = document.getElementById("child1").children
-		modalNav.room.value = data.roomNr;
-		modalNav.startdate.value = data.dateFrom;
-		modalNav.enddate.value = data.dateTo;	
+		// var modalNav = document.getElementById("child1").children;
+		// modalNav.room.value = data.roomNr;
+		// modalNav.startdate.value = data.dateFrom;
+		// modalNav.enddate.value = data.dateTo;
 	}
 
 }
