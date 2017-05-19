@@ -1,32 +1,34 @@
 <?php
 include "../../configuration/databaseConnection_configuration.php";
-header ( 'content-type: application/json' );
-
- $departure = $_POST['startDate'];
- $arivate = $_POST['enddate'];
-
-$query = "SELECT * FROM reservierung WHERE einkunft <= '$departure' AND auszug >= '$arivate'";
-$mysqlQuuery = mysql_query ( $query );
-
-$result = array ();
-
+header('content-type: application/json');
+$departure = $_POST['startDate'];
+$arrival = $_POST['enddate'];
+$stmt = $pdo->prepare("SELECT
+  client.name,
+  reservationposition.arrival,
+  reservationposition.departur,
+  object.objectId,
+  object.description
+FROM reservationposition
+  INNER JOIN object ON reservationposition.object_objectId = object.objectId
+  INNER JOIN reservation ON reservation.reservationId = reservationposition.reservation_reservationId
+  INNER JOIN client ON client.clientId = reservation.client_clientId
+  WHERE reservationposition.arrival BETWEEN :departur AND :arrival
+OR
+reservationposition.departur BETWEEN :departur AND :arrival
+OR
+DATEDIFF(reservationposition.departur, reservationposition.arrival) > 28");
+$stmt->execute(array(':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
+$result = array();
 // return a json datei with all the Reservations
-while ( $row = mysql_fetch_assoc ( $mysqlQuuery ) ) {
-
-	$rowResult = array ();
-	$rowResult ['reservNr'] = $row ['reserNr'];
-	$rowResult ['objNr'] = $row ['onjnr'];
-	$rowResult ['kName'] = $row ['name'];
-	$rowResult ['ankunftDate'] = $row ['einkunft'];
-	$rowResult ['auszugDate'] = $row ['auszug'];
-	
-	$result [] = $rowResult;
+while ($row = $stmt->fetch()) {
+    $rowResult = array();
+    $rowResult ['objectId'] = $row ['objectId'];
+    $rowResult ['objectDescription'] = $row ['description'];
+    $rowResult ['kName'] = $row ['name'];
+    $rowResult ['arrivalDate'] = $row ['arrival'];
+    $rowResult ['departureDate'] = $row ['departur'];
+    $result [] = $rowResult;
 }
-
-// create the json-Structur
-print_r ( json_encode ( $result ) );
-
-// close the mysql-connection
-mysql_close ( $connect );
-
-?>
+print_r(json_encode($result));
+$pdo = null;
