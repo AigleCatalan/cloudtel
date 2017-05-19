@@ -127,6 +127,7 @@ function tableSelector() {
 					function() {
 
 						if(startCellIndex != null && EndCellIndex != null && startCellIndex <EndCellIndex ){
+
 							// store all information to data-Object.
 							data.dateFrom = arrAllDayToSchowInKalendarStringFormat[startCellIndex];
 							data.dateTo = arrAllDayToSchowInKalendarStringFormat[EndCellIndex];
@@ -134,12 +135,11 @@ function tableSelector() {
 							// set value;
 							setModalValue();
 							// open Modal.
-                            document.body.style.backgroundColor= "gray";
 
                             console.log(document.body);
 							 openNav();
 							 resetSelection();
-						}else
+                        }else
 							{
 								   isMouseDown = false;
 								   //reset mouse cursor
@@ -149,6 +149,7 @@ function tableSelector() {
 	
 	function setModalValue()
 	{
+		alert(data.roomNr);
 		// var modalNav = document.getElementById("child1").children;
 		// modalNav.room.value = data.roomNr;
 		// modalNav.startdate.value = data.dateFrom;
