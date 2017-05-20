@@ -28,7 +28,7 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
             var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
-            return '<select class="selectRoom" readonly="readonly"> <option value="first">--select room--</option>'
+            return '<select class="selectRoom"> <option value="first">--select room--</option>'
                 + strRoomDescription +
                 '</select>\
                 <br>\
@@ -70,28 +70,29 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 </head>
 <body>
 <div id="main">
-    <div id="mySidenav" class="sidenav">
-        <!--- Beginn of sidenav-->
+    <div id="sidenav">
+        <div id="mySidenav" class="sidenav">
+            <!--- Beginn of sidenav-->
 
-        <a class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="closebtn" onclick="closeNav()">&times;</a>
 
-        <form id="addPerson" name="addPerson" method="post" action="">
+            <form id="addPerson" name="addPerson" method="post" action="">
 
-            <div id="personAttribute">
+                <div id="personAttribute">
 
-                <!-- This content will be automatically set -->
+                    <!-- This content will be automatically set -->
 
-            </div>
-        </form>
+                </div>
+            </form>
 
-        <button type="submit" onclick="request(readData);">Submit</button>
-        <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
+            <button type="submit" onclick="request(readData);">Submit</button>
+            <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
-    </div><!-- End of sidenav-->
+        </div><!-- End of sidenav-->
+    </div>
 
     <!--- click on this element to show sidenav -->
-    <div title="click to add reservation" onclick="openNav();"
-         id="overlay">
+    <div title="click to add reservation" onclick="openNav();" id="overlay">
         <span>&lsaquo;</span>
     </div>
 
@@ -191,31 +192,31 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
          * Set datepicker on choosen element
          *
          ******************************************************************************/
-
-        window.addEventListener('mouseup', function (event) {
-
-
-            var status = false;
-            var box = document.getElementById('mySidenav');
-            var boxCalendar = document.getElementById('ui-datepicker-div');
-            var nodes = [];
-            var element = event.target;
-            nodes.push(element);
-
-            while (element.parentNode) {
-                nodes.unshift(element.parentNode);
-                element = element.parentNode;
-            }
-
-            for (var i = 0; i < nodes.length; i++) {
-                if (nodes[i] == box || nodes[i] == boxCalendar) {
-                    status = true;
-                }
-            }
-            if (status == false) {
-                closeNav();
-            }
-        });
+//
+//        window.addEventListener('mouseup', function (event) {
+//
+//
+//            var status = false;
+//            var box = document.getElementById('mySidenav');
+//            var boxCalendar = document.getElementById('ui-datepicker-div');
+//            var nodes = [];
+//            var element = event.target;
+//            nodes.push(element);
+//
+//            while (element.parentNode) {
+//                nodes.unshift(element.parentNode);
+//                element = element.parentNode;
+//            }
+//
+//            for (var i = 0; i < nodes.length; i++) {
+//                if (nodes[i] == box || nodes[i] == boxCalendar) {
+//                    status = true;
+//                }
+//            }
+//            if (status == false) {
+//                closeNav();
+//            }
+//        });
 
 
         function request(callback) {
@@ -242,6 +243,7 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
             xhr.send(oStoredData);
 
             document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("sidenav").style.width = "0";
 
             document.getElementById("main").style.marginLeft = "0";
 
@@ -262,8 +264,6 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
             }
 
         }
-
-
     </script>
 
 </div>

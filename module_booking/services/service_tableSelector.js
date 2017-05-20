@@ -132,13 +132,11 @@ function tableSelector() {
 							data.dateFrom = arrAllDayToSchowInKalendarStringFormat[startCellIndex];
 							data.dateTo = arrAllDayToSchowInKalendarStringFormat[EndCellIndex];
 							data.roomNr = document.getElementById("roomtable").rows[startRowIndex].cells[0].innerHTML;
-							// set value;
-							setModalValue();
-							// open Modal.
 
-                            console.log(document.body);
-							 openNav();
-							 resetSelection();
+	                            openNav();
+                            setModalValue();
+
+                            resetSelection();
                         }else
 							{
 								   isMouseDown = false;
@@ -149,11 +147,11 @@ function tableSelector() {
 	
 	function setModalValue()
 	{
-		alert(data.roomNr);
-		// var modalNav = document.getElementById("child1").children;
-		// modalNav.room.value = data.roomNr;
-		// modalNav.startdate.value = data.dateFrom;
-		// modalNav.enddate.value = data.dateTo;
+		var modalNav = document.getElementById("child1").children;
+
+		$('.selectRoom').val(data.roomNr);
+        modalNav.startdate.value = data.dateFrom;
+		modalNav.enddate.value = data.dateTo;
 	}
 
 }
