@@ -118,7 +118,7 @@ td.selected {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+   /* z-index: 1;*/
     top: 0;
     right: 0;
     background-color: white;
@@ -131,7 +131,7 @@ td.selected {
 #sidenav {
     height: 100%;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     /* Fallback for web browsers that doesn't support RGBa */
     background: rgb(153, 50, 204);
@@ -183,11 +183,11 @@ td.selected {
 	margin-left: 10%;
 }
 
- /*button{*/
- /*display: inline;*/
- /*margin-left:9.5%;*/
- /*margin-bottom:5%;*/
-/*} */
+ .sidenav button{
+ display: inline;
+ margin-left:9.5%;
+ margin-bottom:5%;
+} 
 #overlay {
 	font-size: 50px;
 	top: 40%;
