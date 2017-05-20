@@ -18,7 +18,33 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
     <script type="text/javascript" src="utility/global_vars.js"></script>
     <script type="text/javascript" src="utility/help.js"></script>
     <script type="text/javascript" src="module_booking/utility/bookingModule_help.js"></script>
-    <script type="text/javascript" src="module_booking/utility/ed_help.js"></script>
+    <script type="text/javascript" src="module_booking/utility/sidenav_help.js"></script>
+
+    <script type="text/javascript">
+
+        var childCounter = 1;
+
+        function childContent() {
+
+            var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
+
+            return '<select class="selectRoom"> <option value="first">--select room--</option>'
+                + strRoomDescription +
+                '</select>\
+                <br>\
+        <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+    placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
+        <p id="error"></p>\
+        <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+    placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
+        <p id="errorMsg"></p>\
+        <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
+        placeholder="Vorname*"><br>\
+        <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
+         placeholder="Lastname*"><br>'
+        } //end of childContent
+
+    </script>
 
     <!-- configuration script -->
     <script type="text/javascript"
@@ -44,45 +70,29 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 </head>
 <body>
 <div id="main">
-    <div id="mySidenav" class="sidenav">
-        <!--- Beginn of sidenav-->
+    <div id="sidenav">
+        <div id="mySidenav" class="sidenav">
+            <!--- Beginn of sidenav-->
 
-        <a class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="closebtn" onclick="closeNav()">&times;</a>
 
-        <form id="addPerson" name="addPerson" method="post" action="">
+            <form id="addPerson" name="addPerson" method="post" action="">
 
-            <div id="personAttribute">
+                <div id="personAttribute">
 
-                <div id="child1">
-                    <br> <input type="text" name="room" class="childOfDiv"
-                                onkeyup="checkData(this);" placeholder="Room">
+                    <!-- This content will be automatically set -->
 
-                    <br> <input type="text" name="startdate"
-                                class="childOfDiv" placeholder="Startdatum format tt.mm.jjjj"
-                                onkeyup="checkData(this);">
-                    <p id="error"></p>
-
-                    <input type="text" name="enddate"
-                           class="childOfDiv" placeholder="Enddatum format tt.mm.jjjj"
-                           onkeyup="checkData(this);">
-                    <p id="errorMsg"></p>
-
-                    <input type="text" name="firstname" class="childOfDiv"
-                           onkeyup="checkData(this);" placeholder="Vorname*"><br> <input
-                            type="text" name="lastname" class="childOfDiv"
-                            onkeyup="checkData(this);" placeholder="Nachname*"><br>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <button type="submit" onclick="request(readData);">Submit</button>
-        <button id="myBtnWeiter" onclick="cloneDiv();" disabled>add More...</button>
+            <button type="submit" onclick="request(readData);">Submit</button>
+            <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
-    </div><!-- End of sidenav-->
+        </div><!-- End of sidenav-->
+    </div>
 
     <!--- click on this element to show sidenav -->
-    <div title="click to add reservation" onclick="openNav();"
-         id="overlay">
+    <div title="click to add reservation" onclick="openNav();" id="overlay">
         <span>&lsaquo;</span>
     </div>
 
@@ -126,9 +136,6 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
             </div>
             <p style="clear: both;"></p>
         </div>
-
-        <!-- this is a help field. could be used to save particular information -->
-        <input type="text" id="inhalt" name="fname"><br>
     </div>
     <!-- End of Dashboard-->
     <!-- end of content-->
@@ -180,137 +187,37 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
         }
 
 
-        /***************BEGINN OF FUNCTION SET JQUERY-DATEPIKER***********************
+        /***************BEGINN OF EVENT ON SIDENAV***********************
          *
          * Set datepicker on choosen element
          *
          ******************************************************************************/
+//
+//        window.addEventListener('mouseup', function (event) {
+//
+//
+//            var status = false;
+//            var box = document.getElementById('mySidenav');
+//            var boxCalendar = document.getElementById('ui-datepicker-div');
+//            var nodes = [];
+//            var element = event.target;
+//            nodes.push(element);
+//
+//            while (element.parentNode) {
+//                nodes.unshift(element.parentNode);
+//                element = element.parentNode;
+//            }
+//
+//            for (var i = 0; i < nodes.length; i++) {
+//                if (nodes[i] == box || nodes[i] == boxCalendar) {
+//                    status = true;
+//                }
+//            }
+//            if (status == false) {
+//                closeNav();
+//            }
+//        });
 
-        $('.childOfDiv').each(function () {
-
-            if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
-
-                $(this).datepicker({
-                    dateFormat: "dd.mm.yy",
-                    onClose: function () {
-
-                        var sCheckDate = validate($(this).val());
-
-                        return sCheckDate;
-
-                    }
-
-                });
-
-            }
-
-        });
-
-        /***************END OF FUNCTION SET JQUERY-DATEPIKER**************************/
-
-
-        /***************BEGINN OF JQUERY-FUNCTION ************************************
-         *
-         * This function will help to deal with datepicker issue after the clone ***
-         * We increment a variable nCount if the 'Add' button is clicked
-         * We Know that after the click the form is cloned so we select the new div
-         * We select the two first input because they must have an input and we remove
-         * some attributes (e.g. hasDatepicker,id) and bind the datepicker again
-         *
-         ***************************************************************************/
-
-        var nCount = 1;
-
-        $("#myBtnWeiter").click(function () {
-
-            nCount = nCount + 1;
-
-            var sIdOfClonedElt = "#" + "child" + nCount + " " + ":input";
-
-            //console.log($(sIdOfClonedElt).length);
-
-            $(sIdOfClonedElt).each(function (index, value) {
-
-                //console.log($(this).attr('name'));
-
-                if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
-
-                    $(this).removeClass('hasDatepicker')
-
-                        .removeAttr("id")
-
-                        .datepicker({
-                            dateFormat: "dd.mm.yy",
-
-                            onClose: function () {
-
-                                var sCheckDate = validate($(this).val());
-
-                                return sCheckDate;
-
-                            }
-
-                        });
-
-                }
-
-            });
-
-        });
-
-        /***************END OF JQUERY-FUNCTION ************************************/
-
-
-
-/// When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-//console.log("inside 2 js "+event.target.nodeName);
-            if (event.target.nodeName === "HTML") {
-
-                /*
-                 document.getElementById("mySidenav").style.display = "none";
-                 document.getElementById("main").style.marginLeft= "0";
-                 */
-                document.getElementById("mySidenav").style.width = "0";
-
-                document.body.style.backgroundColor = "white";
-
-                //console.log("inside 3 js ");
-
-            }
-
-        }
-
-        function openNav() {
-
-            /*
-             document.getElementById("mySidenav").style.width = "850px";
-             document.getElementById("main").style.marginLeft = "0px";
-             document.body.style.overflow-y = "scroll"; Add vertical scrollbar
-             document.body.style.overflow-x = "hidden"; /* Hide horizontal scrollbar
-             document.body.style.overflow = "scroll";
-             */
-            //document.body.style.overflow ="scroll";
-            document.getElementById("mySidenav").style.position = "absolute";
-
-            document.getElementById("mySidenav").style.width = "500px";
-
-            //document.getElementById("mySidenav").style.height ="850px";
-            //document.getElementById("mySidenav").style.overflow ="scroll";
-
-            document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
-
-        }
-
-        function closeNav() {
-
-            document.getElementById("mySidenav").style.width = "0";
-
-            document.getElementById("main").style.marginLeft = "0";
-
-            document.body.style.backgroundColor = "white";
-
-        }
 
         function request(callback) {
 
@@ -333,10 +240,10 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
             xhr.setRequestHeader("Content-Type", "application/json");
 
-
             xhr.send(oStoredData);
 
             document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("sidenav").style.width = "0";
 
             document.getElementById("main").style.marginLeft = "0";
 
@@ -348,8 +255,6 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 
             if (sData) {
 
-                //  alert("C'est bon"+sData);
-
                 document.getElementById("console").innerHTML = "...." + sData;
 
             } else {
@@ -359,8 +264,6 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
             }
 
         }
-
-
     </script>
 
 </div>
