@@ -1,3 +1,4 @@
 
-var allDayToSchowInKalendar;
-var positionOfmonthChanged;
+var arrAllDayToSchowInKalendarStringFormat;
+var arrAllDayToSchowInKalendarDateFormat;
+var arrAlldayToShowInKalendarInFormatDayAndMonth;

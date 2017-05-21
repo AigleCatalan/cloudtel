@@ -1,154 +1,172 @@
-.besetzt {
-	background-color: gray;
-	border-left-color: gray;
-	border-right-color: gray;
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    transition: background-color .5s;
 }
 
 .selectableTD {
-	cursor: cell;
+    cursor: cell;
 }
 
 .firstTd {
-	text-align: center;
+    text-align: center;
 }
 
 table {
-	border-collapse: collapse;
-	text-align: center;
-	width: 100%;
-	table-layout: fixed;
-	
-	
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    table-layout: fixed;
+
 }
 
-.bookingContent{
-	width: 200%; 
-	height: 100%; 
-	overflow:hidden;
-  	text-align: center;
+.bookingContent {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: left;
+    border-radius: 10px;
+
 }
 
 table td {
-	border: 1px solid #999;
-	height: 40px;
-	margin: 10px; 
-	white-space: nowrap;
-	
+    border: 1px solid #999;
+    height: 40px;
+    margin: 10px;
+    white-space: nowrap;
+
 }
 
 #hotelTable td {
-	border: 1px solid #999;
-	
+    border: 0.1px solid #999;
+
 }
 
 #roomDiv {
-	position: relative;
-	width: 10%;
+    position: relative;
+    width: 10%;
 }
 
 #tableDiv {
-	position: relative;
-	width: 90%;
+    position: relative;
+    width: 90%;
 }
 
 table.fixed {
-	table-layout: fixed;
+    table-layout: fixed;
 }
 
 table.fixed td {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 #monthTable {
-	width: 100%;
+    width: 100%;
 }
 
 #firstMonth {
-	background-color: olive;
-	text-align: center;
+    background-color: olive;
+    text-align: center;
 }
 
 #secondMonth {
-	background-color: fuchsia;
-	text-align: center;
+    background-color: fuchsia;
+    text-align: center;
 }
 
 #divKalendar {
-	width: 100%;
+    width: 100%;
 }
 
 #hotelTable {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 td.selected {
-	background-color: green;
+    background-color: green;
 }
 
 #leftKalendar, .floatTable {
-	float: left;
+    float: left;
 }
 
 #rightKalendar {
-	float: right;
+    float: right;
 }
 
 .firstTd {
-	background-color: yellow;
-	font-style: italic;
-	font-weight: bold;
+    background-color: yellow;
+    font-style: italic;
+    font-weight: bold;
 }
 
 #monthDiv, #monthTable {
-	width: 100%
+    width: 100%
 }
 
 #content div {
-	border: 2px solid red;
-	margin: 5px;
+    border: 2px solid red;
+    margin: 5px;
 }
 
 /*----------------- Ed -------------*/
 .sidenav {
-	height: 100%;
-	width: 0;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	right: 0;
-	background-color: white;
-	overflow-x: hidden;
-	transition: 0.5s;
-	padding-top: 50px;
+    height: 100%;
+    width: 0;
+    position: fixed;
+   /* z-index: 1;*/
+    top: 0;
+    right: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 50px;
+    /*opacity: 1.0;*/
 }
 
+#sidenav {
+    height: 100%;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    /* Fallback for web browsers that doesn't support RGBa */
+    background: rgb(153, 50, 204);
+    /* RGBa with 0.6 opacity */
+    background: rgba(153, 50, 204, 0.6);
+}
+
+
 .sidenav a {
-	padding: 8px 32px 8px 32px;
-	text-decoration: none;
-	font-size: 25px;
-	color: #818181;
-	display: block;
-	transition: 0.3s
+    padding: 8px 32px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
 }
 
 .sidenav a:hover, .offcanvas a:focus {
-	color: #f1f1f1;
+    color: #f1f1f1;
 }
 
-.sidenav .closebtn {
-	position: absolute;
-	top: 0;
-	right: 20px;
-	font-size: 35px;
-	margin-left: 50px;
-	cursor: pointer;
-	border: 1px solid #AEAEAE;
-	border-radius: 30px;
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 35px;
+    margin-left: 50px;
+    cursor: pointer;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
 }
 
 #main {
-	transition: margin-left .5s;
-	padding: 6px;
+    transition: margin-left .5s;
+    padding: 6px;
 }
 
 @media screen and (max-height: 450px) {
@@ -160,16 +178,16 @@ td.selected {
 	}
 }
 
-#addPerson input {
+#addPerson input, select {
 	display: block;
 	margin-left: 10%;
 }
 
-/* button{
+ .sidenav button{
  display: inline;
  margin-left:9.5%;
  margin-bottom:5%;
-} */
+} 
 #overlay {
 	font-size: 50px;
 	top: 40%;
@@ -181,6 +199,7 @@ td.selected {
 	background-color: gray;
 	padding: 2% 0% 2% 0%;
 	position: fixed;
+	z-index: 1;
 }
 
 /*----- Ende of Ed_style --------- */
