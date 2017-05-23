@@ -1,11 +1,11 @@
 <?php
-	include('LoginLogic.php');
+	include "/module_authentification/LoginLogic.php";
 ?>
 
 <html>
 <head>
 	<title>Login page</title>
-	<link rel="stylesheet" type ="text/css" href="/cloudtel/stylesheet/style1.css"/>
+	<link rel="stylesheet" type ="text/css" href="/cloudtel/stylesheet/authentification.css"/>
 
 <?php
 	if ($verhalten == 1) {
@@ -17,11 +17,10 @@
 </head>
 	<body>
 	
-		Bitte logge dich ein:</br>
 		<div class="container">
 		  <div class="login">
 			<h1>Anmeldung</h1>
-			<form method="POST" action="process.php">
+			<form method="POST" action="index.php">
 			  <p><input type="text" name="user" id="user" value="" placeholder="Username"></p>
 			  <p><input type="password" name="pass" id="pass" value="" placeholder="Password"></p>
 			  

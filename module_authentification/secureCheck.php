@@ -3,7 +3,7 @@ session_start();
 	
 	
 	if(!isset($_SESSION['username'])) {
-		header ('Location: process.php');
+		header ('Location: /cloudtel/index.php');
 	}
 	
 
