@@ -1,8 +1,5 @@
-
-
 <?php
-   include'module_authentification/secureCheck.php';
-   include 'module_booking/services/service_getAllRoomsFromDatabase.php';
+include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 ?>
 
 <html>
@@ -31,15 +28,15 @@
 
             var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
-            return '<select class="selectRoom"> <option value="first">--select room--</option>'
+            return '<select class="selectRoom" id="room"> <option value="first">--select room--</option>'
                 + strRoomDescription +
                 '</select>\
                 <br>\
         <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
-    placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
+    placeholder="Startdatum dd.mm.yyyy" onchange="checkData(this);">\
         <p id="error"></p>\
         <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
-    placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
+    placeholder="Enddatum dd.mm.yyyy" onchange="checkData(this);">\
         <p id="errorMsg"></p>\
         <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
         placeholder="Vorname*"><br>\
@@ -72,9 +69,6 @@
     </script>
 </head>
 <body>
-
- <a href="/cloudtel/module_authentification/logout.php">Ausloggen</a>
- 
 <div id="main">
     <div id="sidenav">
         <div id="mySidenav" class="sidenav">
@@ -226,21 +220,32 @@
 
 
         function request(callback) {
+        	//first check if all input has been filled up. this will be done by check if the addMore button is enabled.
+            var oBtnMore = document.getElementById("myBtnWeiter");
 
+            if(oBtnMore.disabled)
+            {
+                //simulate Output Info
+                alert("!!! Please fill all Informations before sending...");
+                return;
+            }
+            
             var xhr = getXMLHttpRequest();
 
             xhr.onreadystatechange = function () {
 
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 
-                    callback(xhr.responseText); //recuperation de donnees sous forme textuel
-
-
+                    callback(xhr.responseText); 
                 }
 
             };
-
-            var oStoredData = getJsonData();
+            
+            var oStoredData = {
+                    process: "SUBMIT",
+                    data : JSON.stringify(arrAllLocalReservations);
+            } 
+                                                                                                                                                                                                                                      
 
             xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
 
@@ -260,15 +265,13 @@
         function readData(sData) {
 
             if (sData) {
-
-                document.getElementById("console").innerHTML = "...." + sData;
+                // reset reservation object and Lists
+                arrAllLocalReservations = [];
+                oCurrentReserVation = {};
 
             } else {
-
-                alert("Y'a eu un problème");
-
+                alert("Y'a eu un problÃ¨me");
             }
-
         }
     </script>
 
