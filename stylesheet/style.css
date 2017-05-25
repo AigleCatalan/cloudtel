@@ -183,10 +183,11 @@ td.selected {
 	margin-left: 10%;
 }
 
- .sidenav button{
+#mySidenav button{
  display: inline;
  margin-left:9.5%;
  margin-bottom:5%;
+
 } 
 #overlay {
 	font-size: 50px;

@@ -70,7 +70,7 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 </head>
 <body>
 <div id="main">
-    <div id="sidenav">
+    <div id="sidenav" >
         <div id="mySidenav" class="sidenav">
             <!--- Beginn of sidenav-->
 

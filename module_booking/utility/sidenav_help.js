@@ -96,10 +96,19 @@ function openNav() {
     document.getElementById("sidenav").style.position = "absolute";
     document.getElementById("sidenav").style.height = "100%";
     document.getElementById("sidenav").style.width = "100%";
-
+    
+    
     document.getElementById("mySidenav").style.width = "500px";
-    document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
 
+    //Begin of properties, that allow to resolve problem seeing buttons
+
+    document.getElementById("mySidenav").style.height = "auto";
+    document.getElementById("mySidenav").style.top = "0";
+    document.getElementById("mySidenav").style.bottom = "0";
+
+    //End
+    
+    document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     var parEl = document.getElementById("personAttribute");
     var index = parEl.childElementCount;
 
