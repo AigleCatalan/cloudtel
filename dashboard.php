@@ -1,5 +1,8 @@
+
+
 <?php
-include 'module_booking/services/service_getAllRoomsFromDatabase.php';
+   include'module_authentification/secureCheck.php';
+   include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 ?>
 
 <html>
@@ -69,6 +72,9 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
     </script>
 </head>
 <body>
+
+ <a href="/cloudtel/module_authentification/logout.php">Ausloggen</a>
+ 
 <div id="main">
     <div id="sidenav" >
         <div id="mySidenav" class="sidenav">
