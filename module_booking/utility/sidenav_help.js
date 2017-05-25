@@ -136,30 +136,112 @@ function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttr
 
 
 function CreateDivInSidenav() {
+	
+	if(childCounter == 1 && arrLocalReservationLists == undefined )
+		{
+			arrLocalReservationLists = new Array();
+			  createDiv();
+			  return;
+		}
+	if(childCounter == 2){
+		
+		proceedBackendValidation();
+		
+	}else
+		{
+		 // first frontend validation
+		if(!isfrontendValid()){
+			alert("this date range has already been setted up")
+			return;
+		}else
+			{
+			 if( proceedBackendValidation());
+			 
+			}		   
+		}
+}
 
-    var childDiv = document.createElement('div');
+function proceedBackendValidation()
+{
+	$.ajax({
+        type: 'POST',
+        url: "./module_booking/services/service_checkReservationPeriodServer.php",//TODO arnaud set the URL here
+        data: {
+        	process:"ADD",
+        	data:JSON.stringify(oCurrentReserVation)
+        },
+        dataType: "json"
+    })
+    .success(
+        function (response) {
+        	//validation ok expand the room node
+        	if(response == "OK"){ //TODO the server side has to return an object with the Attribut response this could be OK or NOTOK
+        		createDiv();
+            //store current reservation to the List.
+            arrLocalReservationLists.push(oCurrentReserVation);
+            
+        	}else
+        		{
+        		  alert("period already use");
+        		}
+        })	
+	
+}
+
+function createDiv()
+{
+	var childDiv = document.createElement('div');
     var childId = "child" + childCounter;
     childDiv.setAttribute("id", childId);
     childDiv.innerHTML = childContent();
     document.getElementById("personAttribute").appendChild(childDiv);
     childCounter++;
+changeDisabledAttributeValue("myBtnWeiter");
+$('.childOfDiv').each(function () {
 
-    changeDisabledAttributeValue("myBtnWeiter");
+    if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
 
-    $('.childOfDiv').each(function () {
+        $(this).datepicker({
+            dateFormat: "dd.mm.yy",
+            onClose: function () {
+                var sCheckDate = validate($(this).val());
+                return sCheckDate;
+            }
+        });
 
-        if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
+    }
+});
+	
+}
 
-            $(this).datepicker({
-                dateFormat: "dd.mm.yy",
-                onClose: function () {
-                    var sCheckDate = validate($(this).val());
-                    return sCheckDate;
-                }
-            });
+function isfrontendValid()
+{	
+		if(isDateValid())
+			return true;	
+	return false;		
+}
 
-        }
-    });
+function isDateValid()
+{
+	var currentStartDate, currentEndDate,oldStartDate, oldEndDate;
+	 currentStartDate = new Date(oCurrentReserVation.startDate);
+	 currentEndDate = new Date(oCurrentReserVation.endDate);
+	 
+	for(var i = 0 ; i< arrLocalReservationLists.length;i++ )
+		{
+		oldStartDate = new Date(arrLocalReservationLists[i].startDate);
+		oldEndDate = new Date(arrLocalReservationLists[i].endDate);
+		
+		   if((currentStartDate <= oldStartDate &&
+				   currentEndDate> oldEndDate) || 
+				   (currentStartDate >= oldStartDate &&
+						   currentStartDate<= oldEndDate) ||
+				    (currentEndDate >= oldStartDate &&
+						   currentEndDate<= oldEndDate)					   
+		      )		   
+			    return false;    			   
+		}
+	return true;
 }
 
 /**
@@ -200,23 +282,32 @@ function checkData(elt) { // beginn of checkData
 
         } else {
             //console.log("value"+aElts[i].value);
-
         }
-
     }
 
     if (bIsEmpty == false) {
-
-        oBtnWeiter.disabled = false;
-
+    	if(checkDate(aElts["startdate"].value, aElts["enddate"].value)){
+    		oBtnWeiter.disabled = false;
+    		oCurrentReserVation = {	
+    			object: document.getElementById("room").value,	
+    		    startDate: convertStringToDate(aElts["startdate"].value),
+    		    endDate: convertStringToDate(aElts["enddate"].value),
+    		    firstname: aElts["firstname"].value,
+    		    lastname: aElts["lastname"].value  				
+    		}
+    	}
+    	else
+    		alert("startdate must be less than Enddate")
     }
-
     //console.log(bIsEmpty);//false
     return bIsEmpty;
 
-
 } // end of checkData
 
+function checkDate(obStart, obDateEnd)
+{
+	return new stringToDate(obStart) < stringToDate(obDateEnd);	
+}
 
 function disableButtonAddUser(elt) { // begin of disableButtonAddUsser
 
@@ -227,41 +318,6 @@ function disableButtonAddUser(elt) { // begin of disableButtonAddUsser
     oBtnWeiter.disabled = false;
 
 } // end of disableButtonAddUsser
-
-/**
- * 26.03.2017
- * Create an array-object, then fill it with form-data.
- * Store the data in the array-object and convert it to Json.
- *
- **/
-function getJsonData() { // begin of getJsonData
-
-    var oEmptyArray = {"items": []};
-
-    $('[id^=child]').each(function () { // loop in to the input's wrapper
-
-        var obj = {
-
-            startdate: $(this).find("input[name*='startdate']").val(), // place the startdate in a new object. name is = startdate
-
-            enddate: $(this).find("input[name*='enddate']").val(), // place the enddate in a new object
-
-            firstname: $(this).find("input[name^='first']").val(), // place the firstname in a new object. name startswith first
-
-            lastname: $(this).find("input[name^='last']").val() // place the lastname in a new object
-
-        };
-
-        oEmptyArray.items.push(obj); // push in the "oEmptyArray" object created
-
-    });
-
-    var oFilled = JSON.stringify(oEmptyArray);
-
-    return oFilled; // send an JSON-String-objet(s) back.
-
-} // end of getJsonData
-
 
 /**
  *
