@@ -243,7 +243,7 @@ include 'module_booking/services/service_getAllRoomsFromDatabase.php';
             
             var oStoredData = {
                     process: "SUBMIT",
-                    data : JSON.stringify(arrAllLocalReservations);
+                    data : JSON.stringify(arrAllLocalReservations)
             } 
                                                                                                                                                                                                                                       
 
