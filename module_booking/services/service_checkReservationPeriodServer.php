@@ -1,13 +1,14 @@
 <?php
 include "../../configuration/databaseConnection_configuration.php";
 header('content-type: application/json');
-$obj = file_get_contents('php://input');
-$reservation = json_decode($obj, true);
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+$reservation = $data['data'];
 
-$departure = $_POST['startDate'];
-$arrival = $_POST['enddate'];
-$object = $_POST['object'];
-$isSubmit = $_POST["submit"];
+$departure = $reservation['startDate'];
+$arrival = $reservation['endDate'];
+$object = $reservation['object'];
+$process = $data['proccess'];
 
 $stmt = $pdo->prepare("SELECT
   reservationposition.arrival,
@@ -29,16 +30,16 @@ function checkReservationperiod($departure, $arrival, $object, $stmt)
     $stmt->execute(array('object' => $object, ':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
     $RoomNum_rows = $stmt->rowCount();
 
-    $result = 'NOTOK';
+    $result = 'OK';
     if ($RoomNum_rows > 0) {
-        $result = 'OK';
+        $result = 'NOTOK';
     }
     return $result;
 }
 
 $checkResult = checkReservationperiod($departure, $arrival, $object, $stmt);
 
-if ($isSubmit == "ok") {
+if ($process == "SUBMIT") {
     //case when the submit button is clicked
     if ($checkResult == "OK") {
         try {
