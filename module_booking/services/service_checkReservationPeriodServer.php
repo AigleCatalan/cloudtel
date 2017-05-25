@@ -1,6 +1,8 @@
 <?php
 include "../../configuration/databaseConnection_configuration.php";
 header('content-type: application/json');
+$obj = file_get_contents('php://input');
+$reservation = json_decode($obj, true);
 
 $departure = $_POST['startDate'];
 $arrival = $_POST['enddate'];
