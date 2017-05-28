@@ -154,10 +154,7 @@ function CreateDivInSidenav() {
 			alert("this date range has already been setted up")
 			return;
 		}else
-			{
-			 if( proceedBackendValidation());
-			 
-			}		   
+			 proceedBackendValidation();			 		   
 		}
 }
 
@@ -253,6 +250,7 @@ function isDateValid()
 function checkData(elt) { // beginn of checkData
 
     var bIsEmpty = false;
+    var isPeriodInvalid = false;
 
     // save id of element concerned
     var strParent = elt.parentElement.id;
@@ -266,27 +264,21 @@ function checkData(elt) { // beginn of checkData
 
     // count and save Elements with attribute class 'childOfDiv'
     var iCountElts = aElts.length;
-
-    //console.log("Edmond"+iCountElts);
-
+    oBtnWeiter.disabled = true;
+    
     for (var i = 0; i < iCountElts; i++) {
 
         if (aElts[i].value == null || aElts[i].value == "") {
-
-
-            // console.log("leer"+aElts[i].value);
-
-            bIsEmpty = true;
-
-            oBtnWeiter.disabled = true;
-
+            bIsEmpty = true;          
         } else {
-            //console.log("value"+aElts[i].value);
-        }
+        	if((elt.name == "startdate" || elt.name=="enddate")&&!checkDate(aElts[i])){
+        		isPeriodInvalid = true;
+        		alert("startdate must be less than end date") //TODO later we need to implement a logic to handle errors
+        	}
+        }              	
     }
 
-    if (bIsEmpty == false) {
-    	if(checkDate(aElts["startdate"].value, aElts["enddate"].value)){
+    if (bIsEmpty == false && isPeriodInvalid == false) {
     		oBtnWeiter.disabled = false;
     		oCurrentReserVation = {	
     			object: document.getElementById("room").value,	
@@ -294,19 +286,29 @@ function checkData(elt) { // beginn of checkData
     		    endDate: convertStringToDate(aElts["enddate"].value),
     		    firstname: aElts["firstname"].value,
     		    lastname: aElts["lastname"].value  				
-    		}
-    	}
-    	else
-    		alert("startdate must be less than Enddate")
+    		}   	
     }
     //console.log(bIsEmpty);//false
     return bIsEmpty;
 
 } // end of checkData
 
-function checkDate(obStart, obDateEnd)
+function checkDate(elt)
 {
-	return new stringToDate(obStart) < stringToDate(obDateEnd);	
+	
+	switch(elt.name)
+	{
+		case "startdate":
+			if($('#endDate').val() != "" && stringToDate($('#startDate').val()) > stringToDate($('#endDate').val())){
+				return false;
+				break;
+			}
+		case "enddate":
+			if($('#startDate').val()!="" && stringToDate($('#startDate').val()) > stringToDate($('#endDate').val()))
+				return false;
+	}
+	
+	return true;	
 }
 
 function disableButtonAddUser(elt) { // begin of disableButtonAddUsser

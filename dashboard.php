@@ -35,10 +35,10 @@
                 + strRoomDescription +
                 '</select>\
                 <br>\
-        <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+        <input id = "startDate" readonly="readonly" type="text" name="startdate" class="childOfDiv"\
     placeholder="Startdatum dd.mm.yyyy" onchange="checkData(this);">\
         <p id="error"></p>\
-        <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+        <input id = "endDate" readonly="readonly" type="text" name="enddate" class="childOfDiv"\
     placeholder="Enddatum dd.mm.yyyy" onchange="checkData(this);">\
         <p id="errorMsg"></p>\
         <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
