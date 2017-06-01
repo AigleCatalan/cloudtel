@@ -169,6 +169,29 @@ function CreateDivInSidenav() {
 
         }
     });
+
+    //disableFields(childDiv.id);
+}
+
+
+/**
+
+ * The function disables the fields inside one div when  the button
+ * "add more" has been clicked.
+
+ **/
+function disableFields(){
+
+    
+    var strIdOfElement = "child"+(childCounter-2).toString();
+    var oElt = document.getElementById(strIdOfElement);
+
+    $('#'+oElt.id).find("input,select").each(function(){
+
+           $(this).prop("disabled", true); //Disable the elements concerned
+
+    });
+    
 }
 
 /**
