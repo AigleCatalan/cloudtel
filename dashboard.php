@@ -31,19 +31,19 @@
 
             var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
-            return '<select class="selectRoom"> <option value="first">--select room--</option>'
+            return '<select class="selectRoom" > <option value="first">--select room--</option>'
                 + strRoomDescription +
                 '</select>\
                 <br>\
-        <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+        <input  type="text" name="startdate" class="childOfDiv"\
     placeholder="Startdatum dd.mm.yyyy" onkeyup="checkData(this);">\
         <p id="error"></p>\
-        <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
+        <input  type="text" name="enddate"  class="childOfDiv"\
     placeholder="Enddatum dd.mm.yyyy" onkeyup="checkData(this);">\
         <p id="errorMsg"></p>\
-        <input type="text" name="firstname" class="childOfDiv" onkeyup="checkData(this);"\
+        <input type="text" name="firstname"  class="childOfDiv" onkeyup="checkData(this);"\
         placeholder="Vorname*"><br>\
-        <input type="text" name="lastname" class="childOfDiv" onkeyup="checkData(this);"\
+        <input type="text" name="lastname"  class="childOfDiv" onkeyup="checkData(this);"\
          placeholder="Lastname*"><br>'
         } //end of childContent
 
@@ -92,7 +92,7 @@
             </form>
 
             <button type="submit" onclick="request(readData);">Submit</button>
-            <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
+            <button id="myBtnWeiter" onclick="CreateDivInSidenav(),disableFields();" disabled>add More...</button>
 
         </div><!-- End of sidenav-->
     </div>
