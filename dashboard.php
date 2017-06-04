@@ -92,7 +92,7 @@
             </form>
 
             <button type="submit" onclick="request(readData);">Submit</button>
-            <button id="myBtnWeiter" onclick="CreateDivInSidenav(),disableFields();" disabled>add More...</button>
+            <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
         </div><!-- End of sidenav-->
     </div>
