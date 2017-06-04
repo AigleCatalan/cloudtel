@@ -35,7 +35,7 @@
                 + strRoomDescription +
                 '</select>\
                 <br>\
-        <input readonly="readonly" type="text" name="startdate" class="childOfDiv"\
+        <input  type="text" name="startdate" class="childOfDiv"\
     placeholder="Startdatum dd.mm.yyyy" onchange="checkData(this);">\
         <p class ="errorStart"></p>\
         <input readonly="readonly" type="text" name="enddate" class="childOfDiv"\
@@ -76,7 +76,7 @@
  <a href="/cloudtel/module_authentification/logout.php">Ausloggen</a>
  
 <div id="main">
-    <div id="sidenav">
+    <div id="sidenav" >
         <div id="mySidenav" class="sidenav">
             <!--- Beginn of sidenav-->
 
@@ -92,7 +92,7 @@
             </form>
 
             <button type="submit" onclick="request(readData);">Submit</button>
-            <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
+            <button id="myBtnWeiter" onclick="CreateDivInSidenav(),disableFields();" disabled>add More...</button>
 
         </div><!-- End of sidenav-->
     </div>

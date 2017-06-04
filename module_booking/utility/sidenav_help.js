@@ -96,10 +96,19 @@ function openNav() {
     document.getElementById("sidenav").style.position = "absolute";
     document.getElementById("sidenav").style.height = "100%";
     document.getElementById("sidenav").style.width = "100%";
-
+    
+    
     document.getElementById("mySidenav").style.width = "500px";
-    document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
 
+    //Begin of properties, that allow to resolve problem seeing buttons
+
+    document.getElementById("mySidenav").style.height = "auto";
+    document.getElementById("mySidenav").style.top = "0";
+    document.getElementById("mySidenav").style.bottom = "0";
+
+    //End
+    
+    document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     var parEl = document.getElementById("personAttribute");
     var index = parEl.childElementCount;
 
@@ -239,6 +248,29 @@ function isDateValid()
 			    return false;    			   
 		}
 	return true;
+
+    //disableFields(childDiv.id);
+}
+
+
+/**
+
+ * The function disables the fields inside one div when  the button
+ * "add more" has been clicked.
+
+ **/
+function disableFields(){
+
+    
+    var strIdOfElement = "child"+(childCounter-2).toString();
+    var oElt = document.getElementById(strIdOfElement);
+
+    $('#'+oElt.id).find("input,select").each(function(){
+
+           $(this).prop("disabled", true); //Disable the elements concerned
+
+    });
+    
 }
 
 /**
