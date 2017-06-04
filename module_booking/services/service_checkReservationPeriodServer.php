@@ -1,10 +1,14 @@
 <?php
 include "../../configuration/databaseConnection_configuration.php";
 header('content-type: application/json');
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+$reservation = $data['data'];
 
-$departure = $_POST['startDate'];
-$arrival = $_POST['enddate'];
-$object = $_POST['object'];
+$departure = $reservation['startDate'];
+$arrival = $reservation['endDate'];
+$object = $reservation['object'];
+$process = $data['proccess'];
 
 $stmt = $pdo->prepare("SELECT
   reservationposition.arrival,
@@ -19,12 +23,49 @@ WHERE object.description = :object AND (
       OR
       reservationposition.departur BETWEEN :arrival AND :departur)");
 
-$stmt->execute(array('object' => $object, ':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
-$RoomNum_rows = $stmt->rowCount();
 
-$result = 'NOTOK';
-if ($RoomNum_rows > 0) {
+function checkReservationperiod($departure, $arrival, $object, $stmt)
+{
+
+    $stmt->execute(array('object' => $object, ':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
+    $RoomNum_rows = $stmt->rowCount();
+
     $result = 'OK';
+    if ($RoomNum_rows > 0) {
+        $result = 'NOTOK';
+    }
+    return $result;
 }
-print_r(json_encode($result));
+
+$checkResult = checkReservationperiod($departure, $arrival, $object, $stmt);
+
+if ($process == "SUBMIT") {
+    //case when the submit button is clicked
+    if ($checkResult == "OK") {
+        try {
+
+            $statement = "INSERT INTO reservationposition ( arrival, departur) VALUES ('2017-05-01', '2017-05-01')";
+            $statement->execute();
+        } catch (Error $error) {
+            echo $error;
+        }
+    }
+    print_r(json_encode($checkResult));
+
+} else {
+    // case when the clone Button is clicked
+    print_r(json_encode($checkResult));
+}
+
+//print_r(json_encode($result));
 $pdo = null;
+
+//
+//$stmt->execute(array('object' => $object, ':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
+//$RoomNum_rows = $stmt->rowCount();
+//
+//$result = 'NOTOK';
+//if ($RoomNum_rows > 0) {
+//    $result = 'OK';
+//}
+
