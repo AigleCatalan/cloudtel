@@ -261,24 +261,33 @@ function checkData(elt) { // beginn of checkData
 
     //get all element with attribute class 'childOfDiv' within the parent div element
     var aElts = document.getElementById(strParent).getElementsByClassName("childOfDiv");
-
     // count and save Elements with attribute class 'childOfDiv'
     var iCountElts = aElts.length;
     oBtnWeiter.disabled = true;
+    var dynDates = document.getElementById(strParent).getElementsByClassName("childOfDiv" + " dyn");
+    var countDynDates = dynDates.length;
     
     for (var i = 0; i < iCountElts; i++) {
 
         if (aElts[i].value == null || aElts[i].value == "") {
             bIsEmpty = true;          
         } else {
-        	if((elt.name == "startdate" || elt.name=="enddate")&&!checkDate(aElts[i])){
-        		isPeriodInvalid = true;
-        		alert("startdate must be less than end date") //TODO later we need to implement a logic to handle errors
+        	if((aElts[i].name == "startdate" || aElts[i].name=="enddate")){
+        		 if(aElts[i].name == elt.name &&!checkDate(elt, aElts)){
+        		 	 setupDymanicClass("add",aElts[i],"dyn");
+        		 }else if(aElts[i].name == elt.name && checkDate(elt, aElts))
+        			 {
+        			    	for(var j = 0; j<countDynDates; j++){  		
+        			    			setupDymanicClass("remove",dynDates[0],"dyn"); 
+        			    	}
+        			 }
+        		 else
+        			 continue;
         	}
         }              	
     }
 
-    if (bIsEmpty == false && isPeriodInvalid == false) {
+    if (bIsEmpty == false && dynDates.length==0) {
     		oBtnWeiter.disabled = false;
     		oCurrentReserVation = {	
     			object: document.getElementById("room").value,	
@@ -292,19 +301,34 @@ function checkData(elt) { // beginn of checkData
     return bIsEmpty;
 
 } // end of checkData
+function setupDymanicClass(action,elt,dynWord)
+{
+	switch (action) {
+    case 'add':
+    	elt.className +=' dyn';
+        break;
+    case 'remove':
+    	elt.className = elt.className.replace(dynWord, '');
+        break ;
+	}
+	return;
+}
 
-function checkDate(elt)
+
+function checkDate(datePart, elts)
 {
 	
-	switch(elt.name)
+	switch(datePart.name)
 	{
 		case "startdate":
-			if($('#endDate').val() != "" && stringToDate($('#startDate').val()) > stringToDate($('#endDate').val())){
+			var enddate = elts['enddate'].value;
+			if(enddate != "" && stringToDate(datePart.value) > stringToDate(enddate)){
 				return false;
-				break;
 			}
+			break;
 		case "enddate":
-			if($('#startDate').val()!="" && stringToDate($('#startDate').val()) > stringToDate($('#endDate').val()))
+			var startdate = elts['startdate'].value;
+			if(startdate!="" && stringToDate(startdate) > stringToDate(datePart.value))
 				return false;
 	}
 	
@@ -332,7 +356,7 @@ function validate(dateText) { //begin of validate
 
     if (dateText == null || dateText == "") {
 
-        sErrorMsg = "Empty date not allowed!"
+        sErrorMsg = "Empty date not allowed!";
 
         console.log(sErrorMsg);
         // bIsEmpty = !bIsEmpty;
