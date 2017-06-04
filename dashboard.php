@@ -249,7 +249,7 @@
 
             var oStoredData = {
                     process: "SUBMIT",
-                    data : JSON.stringify(arrAllLocalReservations)
+                    data : JSON.stringify(arrLocalReservationLists)
             }
 
 
@@ -272,7 +272,7 @@
 
             if (sData) {
                 // reset reservation object and Lists
-                arrAllLocalReservations = [];
+                arrLocalReservationLists = [];
                 oCurrentReserVation = {};
 
             } else {
