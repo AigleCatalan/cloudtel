@@ -3,12 +3,7 @@ include "../../configuration/databaseConnection_configuration.php";
 header('content-type: application/json');
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
-$reservation = $data['data'];
-
-$departure = $reservation['startDate'];
-$arrival = $reservation['endDate'];
-$object = $reservation['object'];
-$process = $data['proccess'];
+$process = $data['process'];
 
 $stmt = $pdo->prepare("SELECT
   reservationposition.arrival,
@@ -37,11 +32,16 @@ function checkReservationperiod($departure, $arrival, $object, $stmt)
     return $result;
 }
 
-$checkResult = checkReservationperiod($departure, $arrival, $object, $stmt);
-
 if ($process == "SUBMIT") {
+	
+	//get reservation lists
+	$reservations = $data['data']['reservations'];
+	
+	for ($i = 0; $i < count($reservations); $i++) {
+		echo"gut for".$reservations[$i]['startDate'];			
+	}
     //case when the submit button is clicked
-    if ($checkResult == "OK") {
+/*     if ($checkResult == "OK") {
         try {
 
             $statement = "INSERT INTO reservationposition ( arrival, departur) VALUES ('2017-05-01', '2017-05-01')";
@@ -50,9 +50,15 @@ if ($process == "SUBMIT") {
             echo $error;
         }
     }
-    print_r(json_encode($checkResult));
+    print_r(json_encode($checkResult)); */
 
 } else {
+	$reservation = $data['data'];
+	$departure = $reservation['startDate'];
+	$arrival = $reservation['endDate'];
+	$object = $reservation['object'];
+	
+	$checkResult = checkReservationperiod($departure, $arrival, $object, $stmt);
     // case when the clone Button is clicked
     print_r(json_encode($checkResult));
 }

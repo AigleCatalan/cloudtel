@@ -31,7 +31,7 @@
 
             var strRoomDescription = <?php echo json_encode($strRoomDescription); ?>;
 
-            return '<select class="selectRoom" id="room"> <option value="first">--select room--</option>'
+            return '<select class="childOfDiv" name="room" onchange="checkData(this);"> <option value="first">select room</option>'
                 + strRoomDescription +
                 '</select>\
                 <br>\
@@ -91,7 +91,7 @@
                 </div>
             </form>
 
-            <button type="submit" onclick="request(readData);">Submit</button>
+            <button id="myBtnSubmit" type="submit" onclick="request(readData);" disabled>Submit</button>
             <button id="myBtnWeiter" onclick="CreateDivInSidenav();" disabled>add More...</button>
 
         </div><!-- End of sidenav-->
@@ -247,17 +247,21 @@
 
             };
 
+            //getCurrent Object and put into global array
+            arrLocalReservationLists.push(oCurrentReserVation);
+
             var oStoredData = {
                     process: "SUBMIT",
-                    data : JSON.stringify(arrLocalReservationLists)
-            }
+                    data : {
+                             reservations : arrLocalReservationLists
+                        }
+            };
 
-
-            xhr.open("POST", "module_booking/services/service_boockingDataValidator.php", true);
+            xhr.open("POST", "module_booking/services/service_checkReservationPeriodServer.php", true);
 
             xhr.setRequestHeader("Content-Type", "application/json");
 
-            xhr.send(oStoredData);
+            xhr.send(JSON.stringify(oStoredData));
 
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("sidenav").style.width = "0";

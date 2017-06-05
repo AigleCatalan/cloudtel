@@ -112,6 +112,7 @@ function createDiv()
     document.getElementById("personAttribute").appendChild(childDiv);
     childCounter++;
 changeDisabledAttributeValue("myBtnWeiter");
+changeDisabledAttributeValue("myBtnSubmit");
 $('.childOfDiv').each(function () {
 
     if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
@@ -144,17 +145,19 @@ function isDateValid()
 
 	for(var i = 0 ; i< arrLocalReservationLists.length;i++)
 		{
-		oldStartDate = new Date(arrLocalReservationLists[i].startDate);
-		oldEndDate = new Date(arrLocalReservationLists[i].endDate);
-
-		   if((currentStartDate <= oldStartDate &&
-				   currentEndDate> oldEndDate) ||
-				   (currentStartDate >= oldStartDate &&
-						   currentStartDate<= oldEndDate) ||
-				    (currentEndDate >= oldStartDate &&
-						   currentEndDate<= oldEndDate)
-		      )
-			    return false;
+		   if(arrLocalReservationLists[i].object == oCurrentReserVation.object){
+			    oldStartDate = new Date(arrLocalReservationLists[i].startDate);
+				oldEndDate = new Date(arrLocalReservationLists[i].endDate);
+	
+			   if((currentStartDate <= oldStartDate &&
+					   currentEndDate> oldEndDate) ||
+					   (currentStartDate >= oldStartDate &&
+							   currentStartDate<= oldEndDate) ||
+					    (currentEndDate >= oldStartDate &&
+							   currentEndDate<= oldEndDate)
+			      )
+				    return false;
+		   }
 		}
 	return true;
 
@@ -198,18 +201,20 @@ function checkData(elt) { // beginn of checkData
     //console.log(strParent); //child1
 
     var oBtnWeiter = document.getElementById("myBtnWeiter");
+    var oBtnSubmit = document.getElementById("myBtnSubmit");
 
     //get all element with attribute class 'childOfDiv' within the parent div element
     var aElts = document.getElementById(strParent).getElementsByClassName("childOfDiv");
     // count and save Elements with attribute class 'childOfDiv'
     var iCountElts = aElts.length;
     oBtnWeiter.disabled = true;
+    oBtnSubmit.disabled = true;
     var dynDates = document.getElementById(strParent).getElementsByClassName("childOfDiv" + " dyn");
     var countDynDates = dynDates.length;
 
     for (var i = 0; i < iCountElts; i++) {
 
-        if (aElts[i].value == null || aElts[i].value == "") {
+        if (aElts[i].value == null || aElts[i].value == "" || (aElts[i].name =="room" && aElts[i].value =="first")) {
             bIsEmpty = true;
         } else {
         	if((aElts[i].name == "startdate" || aElts[i].name=="enddate")){
@@ -229,8 +234,9 @@ function checkData(elt) { // beginn of checkData
 
     if (bIsEmpty == false && dynDates.length==0) {
     		oBtnWeiter.disabled = false;
+    		oBtnSubmit.disabled = false;
     		oCurrentReserVation = {
-    			object: document.getElementById("room").value,
+    			object: aElts["room"].value,
     		    startDate: convertStringToDate(aElts["startdate"].value),
     		    endDate: convertStringToDate(aElts["enddate"].value),
     		    firstname: aElts["firstname"].value,

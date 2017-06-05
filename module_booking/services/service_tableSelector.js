@@ -142,7 +142,7 @@ function tableSelector() {
     function setModalValue() {
         var modalNav = document.getElementById("child1").children;
 
-        $('.selectRoom').val(data.roomNr);
+        modalNav.room.value = data.roomNr;
         modalNav.startdate.value = data.dateFrom;
         modalNav.enddate.value = data.dateTo;
     }
