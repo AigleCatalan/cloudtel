@@ -40,6 +40,9 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
     document.body.style.backgroundColor = "white";
+    //reset Local ArrayList and reservation variable.
+    arrLocalReservationLists = null;
+    oCurrentReserVation = null;
 }
 
 function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttributeValue
