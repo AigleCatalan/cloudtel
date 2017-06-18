@@ -190,40 +190,67 @@ function disableFields(childnumber){
 function checkData(elt) { // beginn of checkData
 
     var bIsEmpty = false;
-    var isPeriodInvalid = false;
+
+    var isPeriodInvalid = false; 
 
     // save id of element concerned
     var strParent = elt.parentElement.id;
 
-    //console.log(strParent); //child1
+    console.log(strParent); //child1
 
     var oBtnWeiter = document.getElementById("myBtnWeiter");
 
     //get all element with attribute class 'childOfDiv' within the parent div element
     var aElts = document.getElementById(strParent).getElementsByClassName("childOfDiv");
+
     // count and save Elements with attribute class 'childOfDiv'
     var iCountElts = aElts.length;
+ 
     oBtnWeiter.disabled = true;
+
     var dynDates = document.getElementById(strParent).getElementsByClassName("childOfDiv" + " dyn");
+
     var countDynDates = dynDates.length;
 
+
+   // console.log('test the web '+ $('#room option').filter(':selected').text()); //output is: --select room--
+
+    // console.log($('.selectRoom').find("option:first-child").val()); //output is: first
+
+    
     for (var i = 0; i < iCountElts; i++) {
 
-        if (aElts[i].value == null || aElts[i].value == "") {
-            bIsEmpty = true;
-        } else {
-        	if((aElts[i].name == "startdate" || aElts[i].name=="enddate")){
-        		 if(aElts[i].name == elt.name &&!checkDate(elt, aElts)){
-        		 	 setupDymanicClass("add",aElts[i],"dyn");
-        		 }else if(aElts[i].name == elt.name && checkDate(elt, aElts))
-        			 {
-        			    	for(var j = 0; j<countDynDates; j++){
-        			    			setupDymanicClass("remove",dynDates[0],"dyn");
-        			    	}
-        			 }
-        		 else
-        			 continue;
-        	}
+         if(aElts[i].nodeName ==="SELECT"){
+
+           
+               if($('#'+aElts[i].id +' option').filter(':selected').text() === '--select room--'){
+
+                      bIsEmpty = true;
+                      //console.log("je suis first");
+            }
+
+         }else{
+
+                 if (aElts[i].value == null || aElts[i].value == ""){
+         
+                    bIsEmpty = true;
+
+
+                } else {
+                	if((aElts[i].name == "startdate" || aElts[i].name=="enddate")){
+                		 if(aElts[i].name == elt.name &&!checkDate(elt, aElts)){
+                		 	 setupDymanicClass("add",aElts[i],"dyn");
+                		 }else if(aElts[i].name == elt.name && checkDate(elt, aElts))
+                			 {
+                			    	for(var j = 0; j<countDynDates; j++){
+                			    			setupDymanicClass("remove",dynDates[0],"dyn");
+                			    	}
+                			 }
+                		 else
+                			 continue;
+                	}
+
+               }
         }
     }
 
@@ -237,7 +264,7 @@ function checkData(elt) { // beginn of checkData
     		    lastname: aElts["lastname"].value
     		}
     }
-    //console.log(bIsEmpty);//false
+    console.log("value de bIsEmpty: "+bIsEmpty);//false
     return bIsEmpty;
 
 } // end of checkData
