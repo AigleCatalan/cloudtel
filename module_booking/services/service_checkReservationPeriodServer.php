@@ -56,10 +56,10 @@ if ($process == "SUBMIT") {
 
         //Insering all reservtion positions
         for ($i = 0; $i < count($reservations); $i++) {
-            $arrival = $reservations[$i]['startDate'];
-            $departure = $reservations[$i]['endDate'];
+            $arrivalRP = $reservations[$i]['startDate'];
+            $departureRP = $reservations[$i]['endDate'];
             $object = $reservations[$i]['object'];
-            echo ($arrival.$departure);
+            echo("arrival: " . gettype($arrivalRP) . " departure: " . gettype($departureRP));
 
             //fetch the RoomId with the help of description
             $stmtGetRoomID->bindParam(':roomDescription', $object);
@@ -69,7 +69,7 @@ if ($process == "SUBMIT") {
 
             //TODO please think to update parameters
             try {
-                $statement = $pdo->prepare("INSERT INTO reservationposition (arrival, departur, price, commentar,reservation_reservationId, object_objectId) VALUES ($arrival, $departure,123, 'commentar not yet available ',$reservationID, $roomID)");
+                $statement = $pdo->prepare("INSERT INTO reservationposition (arrival, departur, price, commentar,reservation_reservationId, object_objectId) VALUES ('$arrivalRP' , '$departureRP',123, 'commentar not yet available ',$reservationID, $roomID)");
                 $statement->execute();
             } catch (Error $error) {
                 echo $error;
@@ -78,7 +78,7 @@ if ($process == "SUBMIT") {
             $roomID = null;
         }
     }
-    echo("result from SUBMIT: " . $checkResult );
+    echo("result from SUBMIT: " . $checkResult);
     print_r(json_encode($checkResult));
 
 } else {
