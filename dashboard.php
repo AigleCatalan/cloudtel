@@ -1,8 +1,6 @@
-
-
 <?php
-   include'module_authentification/secureCheck.php';
-   include 'module_booking/services/service_getAllRoomsFromDatabase.php';
+include 'module_authentification/secureCheck.php';
+include 'module_booking/services/service_getAllRoomsFromDatabase.php';
 ?>
 
 <html>
@@ -73,14 +71,15 @@
 </head>
 <body>
 
- <a href="/cloudtel/module_authentification/logout.php">Ausloggen</a>
- 
+<a href="/cloudtel/module_authentification/logout.php">Ausloggen</a>
+
 <div id="main">
-    <div id="sidenav" >
+    <div id="sidenav">
         <div id="mySidenav" class="sidenav">
             <!--- Beginn of sidenav-->
 
             <a class="closebtn" onclick="closeNav()">&times;</a>
+            <p id="errorContent"></p>
 
             <form id="addPerson" name="addPerson" method="post" action="">
 
@@ -149,21 +148,23 @@
     <!-- *************************scripte************************************** -->
     <script type="text/javascript">
 
-        // TODO: please set the rigth Date before going produtive
-        // the EndDate needed to generate the booking Table
         var endDateFromFirstBookingTableGeneration = new Date();
         endDateFromFirstBookingTableGeneration = dateToString(endDateFromFirstBookingTableGeneration);
 
         var nbrOfRoomRows = parseInt(document.getElementById("roomRowNbr").value) + 1;
-        document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
-
-        // after create the Table all the data for the Period will be loaded.
-        loadData();
-        // set date Row onlyread
-        onlyRead = $(".onlyRead");
-        onlyRead.attr("disabled", "disabled");
-        // The table Seletor to get the Possibility to make a select on the table
-        tableSelector();
+        function showKalendarOndashboard() {
+            // the EndDate needed to generate the booking Table
+            document.getElementById("tableDiv").innerHTML = generateTable(nbrOfRoomRows, 28, endDateFromFirstBookingTableGeneration);
+            // after create the Table all the data for the Period will be loaded.
+            loadData();
+            // set date Row onlyread
+            onlyRead = $(".onlyRead");
+            onlyRead.attr("disabled", "disabled");
+            // The table Seletor to get the Possibility to make a select on the table
+            tableSelector();
+        }
+        // by first load of the side
+        showKalendarOndashboard();
 
         // a click Funktion to get the last forteen (actually periode) days an  update the booking table
         function getAPreviousPeriodeClick() {
@@ -192,45 +193,11 @@
             tableSelector();
         }
 
-
-        /***************BEGINN OF EVENT ON SIDENAV***********************
-         *
-         * Set datepicker on choosen element
-         *
-         ******************************************************************************/
-//
-//        window.addEventListener('mouseup', function (event) {
-//
-//
-//            var status = false;
-//            var box = document.getElementById('mySidenav');
-//            var boxCalendar = document.getElementById('ui-datepicker-div');
-//            var nodes = [];
-//            var element = event.target;
-//            nodes.push(element);
-//
-//            while (element.parentNode) {
-//                nodes.unshift(element.parentNode);
-//                element = element.parentNode;
-//            }
-//
-//            for (var i = 0; i < nodes.length; i++) {
-//                if (nodes[i] == box || nodes[i] == boxCalendar) {
-//                    status = true;
-//                }
-//            }
-//            if (status == false) {
-//                closeNav();
-//            }
-//        });
-
-
         function request(callback) {
-        	//first check if all input has been filled up. this will be done by check if the addMore button is enabled.
+            //first check if all input has been filled up. this will be done by check if the addMore button is enabled.
             var oBtnMore = document.getElementById("myBtnWeiter");
 
-            if(oBtnMore.disabled)
-            {
+            if (oBtnMore.disabled) {
                 //simulate Output Info
                 alert("!!! Please fill all Informations before sending...");
                 return;
@@ -241,8 +208,21 @@
             xhr.onreadystatechange = function () {
 
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-
                     callback(xhr.responseText);
+                    var xhrResponse = this.responseText;
+                    var responseText = '"' + 'OK' + '"';
+                    if (this.responseText == responseText) {
+                        resetErrorsOnSideNav();
+                        closeNav();
+                        showKalendarOndashboard()
+                    } else {
+
+                        showErrorsOnSideNav(error_selectedPeriodInvalid)
+                        document.getElementById("myBtnWeiter").disabled = true;
+                        document.getElementById("myBtnSubmit").disabled = true;
+                    }
+                } else {
+                    //TODO: handle exception case here
                 }
 
             };
@@ -251,25 +231,14 @@
             arrLocalReservationLists.push(oCurrentReserVation);
 
             var oStoredData = {
-                    process: "SUBMIT",
-                    data : {
-                             reservations : arrLocalReservationLists
-                        }
+                process: "SUBMIT",
+                data: {
+                    reservations: arrLocalReservationLists
+                }
             };
-
             xhr.open("POST", "module_booking/services/service_checkReservationPeriodServer.php", true);
-
             xhr.setRequestHeader("Content-Type", "application/json");
-
             xhr.send(JSON.stringify(oStoredData));
-
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("sidenav").style.width = "0";
-
-            document.getElementById("main").style.marginLeft = "0";
-
-            document.body.style.backgroundColor = "white";
-
         }
 
         function readData(sData) {

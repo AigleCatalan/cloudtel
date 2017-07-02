@@ -202,6 +202,10 @@ td.selected {
 	position: fixed;
 	z-index: 1;
 }
+#errorContent{
+    display: none;
+
+}
 
 /* dynamik css for input field.
 */
