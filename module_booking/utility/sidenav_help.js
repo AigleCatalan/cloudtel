@@ -6,6 +6,8 @@
  **/
 
 function openNav() {
+    resetErrorsOnSideNav();
+
 
     childCounter = 1;
     document.getElementById("sidenav").style.position = "absolute";
@@ -18,7 +20,7 @@ function openNav() {
     document.getElementById("mySidenav").style.top = "0";
     document.getElementById("mySidenav").style.bottom = "0";
     //End
-    
+
     document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     var parEl = document.getElementById("personAttribute");
     var index = parEl.childElementCount;
@@ -40,6 +42,9 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
     document.body.style.backgroundColor = "white";
+    //reset Local ArrayList and reservation variable.
+    arrLocalReservationLists = null;
+    oCurrentReserVation = null;
 }
 
 function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttributeValue
@@ -56,107 +61,105 @@ function changeDisabledAttributeValue(sIdOfElt) { // begin of changeDisabledAttr
 
 function CreateDivInSidenav() {
 
-	if(childCounter == 1 && arrLocalReservationLists == undefined )
-		{
-			arrLocalReservationLists = new Array();
-			  createDiv();
-			  return;
-		}
-	if(childCounter == 2){
-		proceedBackendValidation();
-	}else
-		{
-		 // first frontend validation
-		if(!isfrontendValid()){
-			alert("this date range has already been setted up")
-			return;
-		}else
-			 proceedBackendValidation();
-		}
+    if (childCounter == 1 && arrLocalReservationLists == undefined) {
+        console.log("first creation");
+        arrLocalReservationLists = new Array();
+        createDiv();
+        return;
+    }
+    if (childCounter == 2) {
+        console.log("second creation");
+        proceedBackendValidation();
+    } else {
+        // first frontend validation
+        if (!isfrontendValid()) {
+            alert("this date range has already been setted up")
+            return;
+        } else
+            proceedBackendValidation();
+    }
 }
 
-function proceedBackendValidation()
-{
-	$.ajax({
+function proceedBackendValidation() {
+    $.ajax({
         type: 'POST',
-        url: "./module_booking/services/service_checkReservationPeriodServer.php",//TODO arnaud set the URL here
+        url: "./module_booking/services/service_checkReservationPeriodServer.php",
         data: {
-        	process:"ADD",
-        	data:JSON.stringify(oCurrentReserVation)
+            process: "ADD",
+            data: JSON.stringify(oCurrentReserVation)
         },
         dataType: "json"
     })
-    .success(
-        function (response) {
-        	//validation ok expand the room node
-        	if(response == "OK"){ //TODO the server side has to return an object with the Attribut response this could be OK or NOTOK
-        		createDiv();
-            //store current reservation to the List.
-            arrLocalReservationLists.push(oCurrentReserVation);
-            //disabled preview clone
-            disableFields(childCounter-2);
-        	}else
-        		{
-        		  alert("period already use");
-        		}
-        })
+        .success(
+            function (response) {
+
+                //validation ok expand the room node
+                if (response == "OK") { //TODO the server side has to return an object with the Attribut response this could be OK or NOTOK
+                    createDiv();
+                    //store current reservation to the List.
+                    arrLocalReservationLists.push(oCurrentReserVation);
+                    //disabled preview clone
+                    disableFields(childCounter - 2);
+                } else {
+                    alert("period already use");
+                }
+            })
 
 }
 
-function createDiv()
-{
-	var childDiv = document.createElement('div');
+function createDiv() {
+    var childDiv = document.createElement('div');
     var childId = "child" + childCounter;
     childDiv.setAttribute("id", childId);
     childDiv.innerHTML = childContent();
     document.getElementById("personAttribute").appendChild(childDiv);
     childCounter++;
-changeDisabledAttributeValue("myBtnWeiter");
-$('.childOfDiv').each(function () {
+    changeDisabledAttributeValue("myBtnWeiter");
+    changeDisabledAttributeValue("myBtnSubmit");
+    $('.childOfDiv').each(function () {
 
-    if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
+        if ($(this).attr('name') === "startdate" || $(this).attr('name') === "enddate") {
 
-        $(this).datepicker({
-            dateFormat: "dd.mm.yy",
-            onClose: function () {
-                var sCheckDate = validate($(this).val());
-                return sCheckDate;
-            }
-        });
+            $(this).datepicker({
+                dateFormat: "dd.mm.yy",
+                onClose: function () {
+                    var sCheckDate = validate($(this).val());
+                    return sCheckDate;
+                }
+            });
 
+        }
+    });
+
+}
+
+function isfrontendValid() {
+    if (isDateValid())
+        return true;
+    return false;
+}
+
+function isDateValid() {
+    var currentStartDate, currentEndDate, oldStartDate, oldEndDate;
+    currentStartDate = new Date(oCurrentReserVation.startDate);
+    currentEndDate = new Date(oCurrentReserVation.endDate);
+
+    for (var i = 0; i < arrLocalReservationLists.length; i++) {
+        if (arrLocalReservationLists[i].object == oCurrentReserVation.object) {
+            oldStartDate = new Date(arrLocalReservationLists[i].startDate);
+            oldEndDate = new Date(arrLocalReservationLists[i].endDate);
+
+            if ((currentStartDate <= oldStartDate &&
+                currentEndDate > oldEndDate) ||
+                (currentStartDate >= oldStartDate &&
+                currentStartDate <= oldEndDate) ||
+                (currentEndDate >= oldStartDate &&
+                currentEndDate <= oldEndDate)
+            )
+                return false;
+        }
     }
-});
-
-}
-
-function isfrontendValid()
-{
-		if(isDateValid())
-			return true;
-	return false;
-}
-
-function isDateValid()
-{
-	var currentStartDate, currentEndDate,oldStartDate, oldEndDate;
-	 currentStartDate = new Date(oCurrentReserVation.startDate);
-	 currentEndDate = new Date(oCurrentReserVation.endDate);
-
-	for(var i = 0 ; i< arrLocalReservationLists.length;i++)
-		{
-		oldStartDate = new Date(arrLocalReservationLists[i].startDate);
-		oldEndDate = new Date(arrLocalReservationLists[i].endDate);
-
-		   if((currentStartDate <= oldStartDate &&
-				   currentEndDate> oldEndDate) ||
-				   (currentStartDate >= oldStartDate &&
-						   currentStartDate<= oldEndDate) ||
-				    (currentEndDate >= oldStartDate &&
-						   currentEndDate<= oldEndDate)
-		      )
-			    return false;
-		}
-	return true;
+    return true;
 
     //disableFields(childDiv.id);
 }
@@ -168,17 +171,17 @@ function isDateValid()
  * "add more" has been clicked.
 
  **/
-function disableFields(childnumber){
+function disableFields(childnumber) {
 
-    var strIdOfElement = "child"+childnumber.toString();
+    var strIdOfElement = "child" + childnumber.toString();
     var oElt = document.getElementById(strIdOfElement);
 
-    $('#'+oElt.id).find("input,select").each(function(){
+    $('#' + oElt.id).find("input,select").each(function () {
 
-           $(this).prop("disabled", true); //Disable the elements concerned
+        $(this).prop("disabled", true); //Disable the elements concerned
 
     });
-    
+
 }
 
 /**
@@ -198,81 +201,80 @@ function checkData(elt) { // beginn of checkData
     //console.log(strParent); //child1
 
     var oBtnWeiter = document.getElementById("myBtnWeiter");
+    var oBtnSubmit = document.getElementById("myBtnSubmit");
 
     //get all element with attribute class 'childOfDiv' within the parent div element
     var aElts = document.getElementById(strParent).getElementsByClassName("childOfDiv");
     // count and save Elements with attribute class 'childOfDiv'
     var iCountElts = aElts.length;
     oBtnWeiter.disabled = true;
+    oBtnSubmit.disabled = true;
     var dynDates = document.getElementById(strParent).getElementsByClassName("childOfDiv" + " dyn");
     var countDynDates = dynDates.length;
 
     for (var i = 0; i < iCountElts; i++) {
 
-        if (aElts[i].value == null || aElts[i].value == "") {
+        if (aElts[i].value == null || aElts[i].value == "" || (aElts[i].name == "room" && aElts[i].value == "first")) {
             bIsEmpty = true;
         } else {
-        	if((aElts[i].name == "startdate" || aElts[i].name=="enddate")){
-        		 if(aElts[i].name == elt.name &&!checkDate(elt, aElts)){
-        		 	 setupDymanicClass("add",aElts[i],"dyn");
-        		 }else if(aElts[i].name == elt.name && checkDate(elt, aElts))
-        			 {
-        			    	for(var j = 0; j<countDynDates; j++){
-        			    			setupDymanicClass("remove",dynDates[0],"dyn");
-        			    	}
-        			 }
-        		 else
-        			 continue;
-        	}
+            if ((aElts[i].name == "startdate" || aElts[i].name == "enddate")) {
+                if (aElts[i].name == elt.name && !checkDate(elt, aElts)) {
+                    setupDymanicClass("add", aElts[i], "dyn");
+                } else if (aElts[i].name == elt.name && checkDate(elt, aElts)) {
+                    for (var j = 0; j < countDynDates; j++) {
+                        setupDymanicClass("remove", dynDates[0], "dyn");
+                    }
+                }
+                else
+                    continue;
+            }
         }
     }
 
-    if (bIsEmpty == false && dynDates.length==0) {
-    		oBtnWeiter.disabled = false;
-    		oCurrentReserVation = {
-    			object: document.getElementById("room").value,
-    		    startDate: convertStringToDate(aElts["startdate"].value),
-    		    endDate: convertStringToDate(aElts["enddate"].value),
-    		    firstname: aElts["firstname"].value,
-    		    lastname: aElts["lastname"].value
-    		}
+    if (bIsEmpty == false && dynDates.length == 0) {
+        oBtnWeiter.disabled = false;
+        oBtnSubmit.disabled = false;
+        oCurrentReserVation = {
+            object: aElts["room"].value,
+            startDate: convertStringToDate(aElts["startdate"].value),
+            endDate: convertStringToDate(aElts["enddate"].value),
+            firstname: aElts["firstname"].value,
+            lastname: aElts["lastname"].value
+        }
     }
     //console.log(bIsEmpty);//false
     return bIsEmpty;
 
 } // end of checkData
-function setupDymanicClass(action,elt,dynWord)
-{
-	switch (action) {
-    case 'add':
-    	elt.className +=' dyn';
-        break;
-    case 'remove':
-    	elt.className = elt.className.replace(dynWord, '');
-        break ;
-	}
-	return;
+function setupDymanicClass(action, elt, dynWord) {
+    switch (action) {
+        case 'add':
+            elt.className += ' dyn';
+            break;
+        case 'remove':
+            elt.className = elt.className.replace(dynWord, '');
+            break;
+    }
+    return;
 }
 
 
-function checkDate(datePart, elts)
-{
+function checkDate(datePart, elts) {
 
-	switch(datePart.name)
-	{
-		case "startdate":
-			var enddate = elts['enddate'].value;
-			if(enddate != "" && stringToDate(datePart.value) > stringToDate(enddate)){
-				return false;
-			}
-			break;
-		case "enddate":
-			var startdate = elts['startdate'].value;
-			if(startdate!="" && stringToDate(startdate) > stringToDate(datePart.value))
-				return false;
-	}
+    switch (datePart.name) {
+        case "startdate":
+            var enddate = elts['enddate'].value;
+            if (enddate != "" && stringToDate(datePart.value) > stringToDate(enddate)) {
+                return false;
+            }
+            break;
+        case "enddate":
+            var startdate = elts['startdate'].value;
+            if (startdate != "" && stringToDate(startdate) > stringToDate(datePart.value))
+                return false;
+    }
 
-	return true;
+    return true;
 }
 
 function disableButtonAddUser(elt) { // begin of disableButtonAddUsser
@@ -304,4 +306,16 @@ function validate(dateText) { //begin of validate
 
     return sErrorMsg;
 
-} // end of validate
+}// end of validate
+
+function showErrorsOnSideNav(errors) {
+    var errorContent = document.getElementById("errorContent");
+    errorContent.style.display = "block";
+    errorContent.style.border = "2px solid red";
+    errorContent.style.color = "red";
+    errorContent.innerHTML = errors;
+
+}
+function resetErrorsOnSideNav() {
+    document.getElementById("errorContent").style.display = "none";
+}
