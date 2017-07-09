@@ -4,6 +4,8 @@ header('content-type: application/json');
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $process = $data['process'];
+$format = 'y-m-d';
+
 
 $stmtGetRoomID = $pdo->prepare("SELECT object.objectId FROM object WHERE object.description = :roomDescription");
 $stmt = $pdo->prepare("SELECT
@@ -22,6 +24,9 @@ WHERE object.description = :object AND (
 
 function checkReservationperiod($departure, $arrival, $object, $stmt)
 {
+    //
+    $arrival = date('Y-m-d', strtotime('+1 day', strtotime($arrival)));
+    $departure = date('Y-m-d', strtotime('-1 day', strtotime($departure)));
 
     $stmt->execute(array('object' => $object, ':arrival' => $arrival, ':departur' => $departure, ':arrival' => $arrival, ':departur' => $departure));
     $RoomNum_rows = $stmt->rowCount();
